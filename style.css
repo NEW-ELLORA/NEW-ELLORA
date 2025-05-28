@@ -20,10 +20,9 @@ body, html {
   height: 100%;
   width: 100%;
   background: url('camera_as_background_with_matching_text_format.jpeg') no-repeat center center/cover;
-  filter: brightness(0.5);
+  filter: brightness(0.6);
   z-index: -1;
 }
-
 .login-container {
   position: absolute;
   top: 50%;
