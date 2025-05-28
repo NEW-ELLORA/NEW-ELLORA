@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEW ELLORA - Photographer Booking</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEW ELLORA - Login</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="hero">
-    <h1>NEW ELLORA</h1>
-    <p>Book Professional Photographers by Location, Occasion & Price</p>
-  </header>
+  <div class="background"></div>
 
-  <section class="gallery">
-    <h2>Our Work</h2>
-    <div class="cube-grid">
-      <img src="images/photo1.jpg" alt="Event 1">
-      <img src="images/photo2.jpg" alt="Event 2">
-      <img src="images/photo3.jpg" alt="Event 3">
-      <!-- Add more images -->
+  <div class="login-container">
+    <h2>NEW ELLORA</h2>
+    
+    <div class="form-toggle">
+      <button id="loginBtn" class="active">Login</button>
+      <button id="registerBtn">Register</button>
     </div>
-  </section>
 
-  <section class="booking">
-    <h2>Book a Photographer</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="text" placeholder="Location" required>
-      <select>
-        <option>Wedding</option>
-        <option>Birthday</option>
-        <option>Corporate</option>
-        <option>Other</option>
-      </select>
-      <input type="date" required>
-      <button type="submit">Book Now</button>
+    <form id="loginForm" class="form">
+      <input type="email" placeholder="Enter Gmail" required />
+      <input type="password" placeholder="Enter Password" required />
+      <button type="submit">Login</button>
     </form>
-  </section>
 
-  <footer>
-    <p>© 2025 NEW ELLORA. All rights reserved.</p>
-  </footer>
+    <form id="registerForm" class="form hidden">
+      <input type="email" placeholder="Enter Gmail" required />
+      <input type="password" placeholder="Create Password" required />
+      <input type="password" placeholder="Confirm Password" required />
+      <button type="submit">Register</button>
+    </form>
+  </div>
 
   <script src="script.js"></script>
 </body>
