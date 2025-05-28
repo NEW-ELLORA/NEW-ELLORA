@@ -1,4 +1,4 @@
-* {
+* { 
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -23,21 +23,26 @@ body, html {
   filter: brightness(0.6);
   z-index: -1;
 }
+
 .login-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.15); /* Transparent background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 2rem;
   border-radius: 10px;
   width: 300px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
+  color: #ffffff; /* Bright text */
 }
 
 .login-container h2 {
   margin-bottom: 1rem;
+  color: #fff;
 }
 
 .form {
@@ -49,8 +54,15 @@ body, html {
 input {
   padding: 0.7rem;
   font-size: 1rem;
-  border: 1px solid #aaa;
+  border: none;
   border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+input::placeholder {
+  color: #f0f0f0;
+  opacity: 0.8;
 }
 
 button {
@@ -61,6 +73,10 @@ button {
   color: white;
   border-radius: 5px;
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #222;
 }
 
 .form-toggle {
@@ -74,11 +90,11 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  color: #555;
+  color: #ddd;
 }
 
 .form-toggle .active {
-  color: black;
+  color: #fff;
   text-decoration: underline;
 }
 
