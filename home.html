@@ -16,35 +16,48 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      background: #000; /* fallback background */
     }
 
-    .background {
-      position: fixed;
+    /* Container with custom background */
+    .background-container {
+      position: absolute;
       top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center/cover;
-      z-index: -1;
-    }
-
-    .welcome-container {
-      height: 100%;
-      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 50%;
+      width: 90%;
+      background: url('camera_in_picture_along_with_stunning_background.jpg') no-repeat center center/cover;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 2.5rem;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    /* RGB color-changing welcome text */
+    .welcome-text {
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+      animation: rgbFade 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes rgbFade {
+      0%   { color: rgb(255, 100, 100); }
+      25%  { color: rgb(100, 255, 100); }
+      50%  { color: rgb(100, 100, 255); }
+      75%  { color: rgb(255, 255, 100); }
+      100% { color: rgb(255, 100, 255); }
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-
-  <div class="welcome-container">
-    Welcome to New Ellora!
+  <div class="background-container">
+    <div class="welcome-text">Welcome to New Ellora!</div>
   </div>
 </body>
 </html>
+
