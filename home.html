@@ -103,22 +103,23 @@
 
     /* Background Container */
     .background-container {
-      position: relative; /* Changed from absolute */
-      top: 60px;        /* Keep this for spacing from the taskbar */
+      position: relative;
+      top: 60px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      /* height: 50%; REMOVE THIS */
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center/cover;
+      height: 400px; /* Set a fixed height for the container */
+      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center;
+      background-size: contain; /* Use "contain" */
       display: flex;
-      flex-direction: column; /* Stack items vertically */
+      flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* Align items to the top */
+      justify-content: flex-start;
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       overflow: hidden;
       z-index: 1;
-      padding-bottom: 20px; /* Add some padding at the bottom */
+      padding-bottom: 20px;
     }
 
     /* Gradient Background Behind */
@@ -157,32 +158,44 @@
       margin: 40px auto 20px; /* Adjusted margins */
       width: 90%; /* Match width of .background-container */
       max-width: 1200px; /* Optional: Set a maximum width */
+      padding-top: 20px; /* Add space between heading and image*/
     }
 
     .carousel-container {
       display: flex;
-      overflow-x: auto;
+      overflow-x: hidden; /* Hide horizontal scroll */
       scroll-behavior: smooth;
-      gap: 20px;
-      padding: 10px 20px;
-      width: 90%; /* Match width of .background-container */
-      max-width: 1200px; /* Optional: Set a maximum width */
-      margin: 0 auto; /* Center the carousel */
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto; /* Add margin for spacing */
+      position: relative; /* For absolute positioning of items */
     }
 
     .carousel-item {
-      flex: 0 0 auto;
-      min-width: 300px;
-      height: 200px;
+      flex: 0 0 100%; /* Each item takes full width */
+      width: 100%; /* Ensure full width */
+      height: auto; /* Adjust height automatically */
+      max-height: 400px; /* Match background-container height */
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: opacity 0.5s ease; /* Fade effect */
+      opacity: 0; /* Initially hidden */
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .carousel-item.active {
+      opacity: 1; /* Make active item visible */
+      position: relative;
     }
 
     .carousel-item img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto; /* Maintain aspect ratio */
+      max-height: 400px; /* match background container height*/
+      object-fit: contain; /* Use "contain" to avoid cropping */
     }
 
     @media (max-width: 768px) {
@@ -229,7 +242,7 @@
   <div class="gallery-heading">Our Best Photograph Images</div>
 
   <div class="carousel-container" id="carousel">
-    <div class="carousel-item"><img src="Screenshot (1099).png" alt="Image 1 Description"></div>
+    <div class="carousel-item active"><img src="Screenshot (1099).png" alt="Image 1 Description"></div>
     <div class="carousel-item"><img src="Screenshot (1098).png" alt="Image 2 Description"></div>
     <div class="carousel-item"><img src="Screenshot (1101).png" alt="Image 3 Description"></div>
     <div class="carousel-item"><img src="Screenshot (1102).png" alt="Image 4 Description"></div>
@@ -239,27 +252,21 @@
   <!-- JavaScript -->
   <script>
     const carousel = document.getElementById('carousel');
-    let scrollAmount = 0;
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    let currentItem = 0;
 
-    function autoScroll() {
-      if (scrollAmount <= carousel.scrollWidth - carousel.clientWidth) {
-        carousel.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-        scrollAmount += 320;
-      } else {
-        scrollAmount = 0;
-        carousel.scrollTo({ left: 0, behavior: 'smooth' });
-      }
+    function showNextItem() {
+      // Remove 'active' from current item
+      carouselItems[currentItem].classList.remove('active');
+
+      // Increment currentItem, loop back to 0 if necessary
+      currentItem = (currentItem + 1) % carouselItems.length;
+
+      // Add 'active' to the new current item
+      carouselItems[currentItem].classList.add('active');
     }
 
-    let scrollInterval = setInterval(autoScroll, 3000); // Start auto-scrolling
-
-    carousel.addEventListener('mousedown', () => { // Stop auto-scrolling on touch
-        clearInterval(scrollInterval);
-    });
-
-    carousel.addEventListener('mouseup', () => { //Start again when releasing touch
-      scrollInterval = setInterval(autoScroll, 3000);
-    })
+    setInterval(showNextItem, 3000);
 
     function toggleHelp() {
       const helpBox = document.getElementById("helpContent");
