@@ -6,6 +6,13 @@
   <title>Welcome to New Ellora</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #fba834;
+      --secondary-color: #fcd34d;
+      --text-color: white;
+      --background-color: #ffffffdd;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -16,8 +23,8 @@
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden;
-      background: linear-gradient(135deg, #fba834, #fcd34d);
+      /* overflow: hidden;  Consider removing if it causes issues */
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     }
 
     /* Top Taskbar */
@@ -25,7 +32,7 @@
       width: 100%;
       height: 50px;
       background: rgba(0, 0, 0, 0.7);
-      color: white;
+      color: var(--text-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -38,8 +45,8 @@
 
     .help-button {
       background: transparent;
-      border: 1px solid white;
-      color: white;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
       padding: 6px 12px;
       border-radius: 5px;
       cursor: pointer;
@@ -50,7 +57,7 @@
       position: absolute;
       top: 55px;
       left: 20px;
-      background-color: #ffffffdd;
+      background-color: var(--background-color);
       color: black;
       padding: 15px;
       width: 300px;
@@ -67,13 +74,14 @@
     .profile-icon {
       font-size: 24px;
       cursor: pointer;
+      color: var(--text-color); /* Make sure it's visible */
     }
 
     .dropdown-content {
       display: none;
       position: absolute;
       right: 0;
-      background-color: #ffffffdd;
+      background-color: var(--background-color);
       min-width: 100px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -95,20 +103,22 @@
 
     /* Background Container */
     .background-container {
-      position: absolute;
-      top: 60px;
+      position: relative; /* Changed from absolute */
+      top: 60px;        /* Keep this for spacing from the taskbar */
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      height: 50%; /* Changed from fixed percentage to viewport height */
+      /* height: 50%; REMOVE THIS */
       background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center/cover;
       display: flex;
+      flex-direction: column; /* Stack items vertically */
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* Align items to the top */
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       overflow: hidden;
       z-index: 1;
+      padding-bottom: 20px; /* Add some padding at the bottom */
     }
 
     /* Gradient Background Behind */
@@ -118,7 +128,7 @@
       left: 0;
       height: 100%;
       width: 100%;
-      background: linear-gradient(135deg, #fba834, #fcd34d);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       z-index: -2;
     }
 
@@ -131,19 +141,22 @@
       text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
       animation: rgbFade 6s infinite alternate ease-in-out;
     }
-    
-    @keyframes rgbFade {
-      0%   { color: rgb(255, 100, 100); }
-      25%  { color: rgb(100, 255, 100); }
-      50%  { color: rgb(100, 100, 255); }
-      75%  { color: rgb(255, 255, 100); }
-      100% { color: rgb(255, 100, 255); }
 
-      .gallery-heading {
+    @keyframes rgbFade {
+      0%   { color: red; }
+      25%  { color: green; }
+      50%  { color: blue; }
+      75%  { color: yellow; }
+      100% { color: magenta; }
+    }
+
+    .gallery-heading {
       text-align: center;
       font-size: 2.5rem;
       font-weight: bold;
-      margin: 40px 0 20px;
+      margin: 40px auto 20px; /* Adjusted margins */
+      width: 90%; /* Match width of .background-container */
+      max-width: 1200px; /* Optional: Set a maximum width */
     }
 
     .carousel-container {
@@ -152,10 +165,9 @@
       scroll-behavior: smooth;
       gap: 20px;
       padding: 10px 20px;
-    }
-
-    .carousel-container::-webkit-scrollbar {
-      display: none;
+      width: 90%; /* Match width of .background-container */
+      max-width: 1200px; /* Optional: Set a maximum width */
+      margin: 0 auto; /* Center the carousel */
     }
 
     .carousel-item {
@@ -212,22 +224,24 @@
   <!-- Welcome Content -->
   <div class="background-container">
     <div class="welcome-text">Welcome to New Ellora!</div>
-    <div class="gallery-heading">Our Best Photograph Images</div>
+  </div>
+
+  <div class="gallery-heading">Our Best Photograph Images</div>
 
   <div class="carousel-container" id="carousel">
-    <div class="carousel-item"><img src="Screenshot (1099).png"></div>
-    <div class="carousel-item"><img src="Screenshot (1098).png"></div>
-    <div class="carousel-item"><img src="Screenshot (1101).png"></div>
-    <div class="carousel-item"><img src="Screenshot (1102).png" alt="Photo 4"></div>
-    <div class="carousel-item"><img src="Screenshot (1103).png" alt="Photo 5"></div>
+    <div class="carousel-item"><img src="Screenshot (1099).png" alt="Image 1 Description"></div>
+    <div class="carousel-item"><img src="Screenshot (1098).png" alt="Image 2 Description"></div>
+    <div class="carousel-item"><img src="Screenshot (1101).png" alt="Image 3 Description"></div>
+    <div class="carousel-item"><img src="Screenshot (1102).png" alt="Image 4 Description"></div>
+    <div class="carousel-item"><img src="Screenshot (1103).png" alt="Image 5 Description"></div>
   </div>
 
   <!-- JavaScript -->
   <script>
-    // Auto-scroll carousel
     const carousel = document.getElementById('carousel');
     let scrollAmount = 0;
-    setInterval(() => {
+
+    function autoScroll() {
       if (scrollAmount <= carousel.scrollWidth - carousel.clientWidth) {
         carousel.scrollTo({ left: scrollAmount, behavior: 'smooth' });
         scrollAmount += 320;
@@ -235,7 +249,18 @@
         scrollAmount = 0;
         carousel.scrollTo({ left: 0, behavior: 'smooth' });
       }
-    }, 3000); // scroll every 3 seconds
+    }
+
+    let scrollInterval = setInterval(autoScroll, 3000); // Start auto-scrolling
+
+    carousel.addEventListener('mousedown', () => { // Stop auto-scrolling on touch
+        clearInterval(scrollInterval);
+    });
+
+    carousel.addEventListener('mouseup', () => { //Start again when releasing touch
+      scrollInterval = setInterval(autoScroll, 3000);
+    })
+
     function toggleHelp() {
       const helpBox = document.getElementById("helpContent");
       helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
@@ -247,10 +272,9 @@
     }
 
     function logout() {
-      window.location.href = "index.html"; // Change to your actual login page if named differently
+      window.location.href = "index.html"; // Change to your actual login page
     }
 
-    // Close dropdowns when clicking outside
     document.addEventListener("click", function(event) {
       const help = document.getElementById("helpContent");
       const profile = document.getElementById("profileDropdown");
@@ -267,4 +291,3 @@
 
 </body>
 </html>
-
