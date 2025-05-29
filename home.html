@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Welcome to New Ellora</title>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <!-- Consider adding Font Awesome for social icons if you want actual icons later -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
   <style>
     :root {
       --primary-color: #fba834;
       --secondary-color: #fcd34d;
       --text-color: white;
       --background-color: #ffffffdd;
+      --footer-bg-color: #222222; /* Dark grey for footer */
+      --footer-text-color: #cccccc; /* Light grey for footer text */
+      --footer-heading-color: #ffffff; /* White for footer headings */
     }
 
     * {
@@ -167,7 +172,8 @@
       margin: 40px auto 20px;
       width: 90%;
       max-width: 1200px;
-      padding-top: 20px;
+      padding-top: 20px; /* Push content down from fixed taskbar */
+      color: #333; /* Darker text for gallery heading on light bg */
     }
 
     .carousel-container {
@@ -198,16 +204,6 @@
         object-fit: cover; /* Ensure the image fills the container */
     }
 
-    @media (max-width: 768px) {
-      .welcome-text {
-        font-size: 2.5rem;
-      }
-
-      .gallery-heading {
-        font-size: 1.8rem;
-      }
-    }
-
     /* Carousel controls */
     .carousel-controls {
         position: absolute;
@@ -226,6 +222,120 @@
         padding: 8px 12px;
         border-radius: 5px;
         cursor: pointer;
+    }
+
+    /* Footer Styles */
+    .site-footer {
+      background-color: var(--footer-bg-color);
+      color: var(--footer-text-color);
+      padding: 50px 0 20px 0; /* top/bottom padding, 0 left/right for wrapper */
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .footer-content-wrapper {
+      max-width: 1200px; /* Max width similar to gallery */
+      margin: 0 auto;
+      padding: 0 20px; /* Padding for content within the wrapper */
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+      gap: 20px; /* Space between columns when they wrap */
+    }
+
+    .footer-column {
+      flex: 1; /* Allows columns to grow */
+      min-width: 200px; /* Minimum width before wrapping */
+      margin-bottom: 20px;
+    }
+    .footer-column.info-column { /* Special column for PIXIESET info */
+        flex: 2; /* Give it more space if needed */
+        min-width: 280px;
+    }
+
+
+    .footer-column h4, .footer-column h3 {
+      color: var(--footer-heading-color);
+      font-size: 0.9rem; /* Matched from image (subtle headings) */
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .footer-column h3 { /* For "PIXIESET" heading */
+        font-size: 1.5rem; /* Larger for PIXIESET */
+        margin-bottom: 10px;
+        text-transform: none; /* PIXIESET is not all caps in image */
+    }
+
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-column ul li a,
+    .footer-column p {
+      color: var(--footer-text-color);
+      text-decoration: none;
+    }
+
+    .footer-column ul li a:hover {
+      color: var(--primary-color); /* Use site's primary color for hover */
+      text-decoration: underline;
+    }
+    
+    .footer-info-text {
+        margin-bottom: 20px;
+        font-size: 0.85rem; /* Slightly smaller text for description */
+    }
+
+    .social-icons a {
+      color: var(--footer-text-color);
+      text-decoration: none;
+      margin-right: 15px;
+      font-size: 1.2rem; /* For icon placeholders */
+    }
+    .social-icons a:hover {
+      color: var(--primary-color);
+    }
+    /* If using Font Awesome, you'd target .fab classes instead of 'a' directly for icons */
+    /* e.g., .social-icons .fab { font-size: 1.2rem; margin-right: 15px; } */
+
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #444444; /* Subtle separator line */
+      font-size: 0.8rem;
+      color: #999999; /* Slightly dimmer for copyright */
+    }
+
+    @media (max-width: 768px) {
+      .welcome-text {
+        font-size: 2.5rem;
+      }
+
+      .gallery-heading {
+        font-size: 1.8rem;
+      }
+
+      .footer-content-wrapper {
+        flex-direction: column; /* Stack columns */
+        align-items: flex-start; /* Align to start */
+      }
+      .footer-column {
+        min-width: 100%; /* Full width for stacked columns */
+        flex-basis: auto;
+      }
+      .footer-column.info-column {
+        flex: 1; /* Reset flex grow for stacked layout */
+      }
     }
 
   </style>
@@ -266,11 +376,11 @@
 
   <div class="carousel-container">
       <div class="carousel-wrapper" id="carousel-wrapper">
-          <div class="carousel-item"><img src="Screenshot (1099).png" alt="Image 1 Description"></div>
-          <div class="carousel-item"><img src="Screenshot (1098).png" alt="Image 2 Description"></div>
-          <div class="carousel-item"><img src="Screenshot (1101).png" alt="Image 3 Description"></div>
-          <div class="carousel-item"><img src="Screenshot (1102).png" alt="Image 4 Description"></div>
-          <div class="carousel-item"><img src="Screenshot (1103).png" alt="Image 5 Description"></div>
+          <div class="carousel-item"><img src="Screenshot (1099).png" alt="Scenic landscape with mountains"></div>
+          <div class="carousel-item"><img src="Screenshot (1098).png" alt="Abstract light patterns"></div>
+          <div class="carousel-item"><img src="Screenshot (1101).png" alt="Architectural detail"></div>
+          <div class="carousel-item"><img src="Screenshot (1102).png" alt="Nature macro shot"></div>
+          <div class="carousel-item"><img src="Screenshot (1103).png" alt="Cityscape at dusk"></div>
       </div>
       <div class="carousel-controls">
           <button class="carousel-control" onclick="prevSlide()">❮</button>
@@ -278,30 +388,93 @@
       </div>
   </div>
 
+  <!-- New Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-content-wrapper">
+      <div class="footer-column">
+        <h4>PRODUCT</h4>
+        <ul>
+          <li><a href="#">Client Gallery</a></li>
+          <li><a href="#">Website</a></li>
+          <li><a href="#">Studio Manager</a></li>
+          <li><a href="#">Store</a></li>
+          <li><a href="#">Mobile Gallery App</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>RESOURCES</h4>
+        <ul>
+          <li><a href="#">Help & Support</a></li>
+          <li><a href="#">Examples</a></li>
+          <li><a href="#">Plugins</a></li>
+          <li><a href="#">Pixieset Blog</a></li>
+          <li><a href="#">Service Status</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>COMPANY</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-column info-column"> <!-- Added info-column class -->
+        <h3>PIXIESET</h3>
+        <p class="footer-info-text">An all-in-one platform for modern photographers, offering photo client galleries, websites, online stores and studio management software tools.</p>
+        <h4>SOCIALS</h4>
+        <div class="social-icons">
+          <!-- Using text placeholders for icons. Replace with actual icons (e.g., Font Awesome <i> tags or SVGs) -->
+          <a href="#" aria-label="Facebook">F</a>
+          <a href="#" aria-label="Instagram">I</a>
+          <a href="#" aria-label="Twitter">T</a>
+          <a href="#" aria-label="LinkedIn">L</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Pixieset Inc. Made with love in Vancity.</p>
+    </div>
+  </footer>
+
+
   <!-- JavaScript -->
   <script>
       const carouselWrapper = document.getElementById('carousel-wrapper');
       const carouselItems = document.querySelectorAll('.carousel-item');
-      const itemWidth = carouselItems[0].offsetWidth;
-      let currentPosition = 0;
+      let itemWidth = carouselItems.length > 0 ? carouselItems[0].offsetWidth : 0; // Guard against no items
+      let currentIndex = 0;
       let autoScrollInterval;
 
+      function updateCarouselDimensions() {
+          if (carouselItems.length === 0) return;
+          itemWidth = carouselItems[0].offsetWidth;
+          carouselWrapper.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
+      }
+
       function scrollToItem(index) {
-          currentPosition = -index * itemWidth;
-          carouselWrapper.style.transform = `translateX(${currentPosition}px)`;
+          if (carouselItems.length === 0) return;
+          currentIndex = index;
+          carouselWrapper.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
       }
 
       function nextSlide() {
-          const newIndex = (Math.abs(currentPosition) / itemWidth + 1) % carouselItems.length;
+          if (carouselItems.length === 0) return;
+          const newIndex = (currentIndex + 1) % carouselItems.length;
           scrollToItem(newIndex);
       }
 
       function prevSlide() {
-          const newIndex = (Math.abs(currentPosition) / itemWidth - 1 + carouselItems.length) % carouselItems.length;
+          if (carouselItems.length === 0) return;
+          const newIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
           scrollToItem(newIndex);
       }
 
       function startAutoScroll() {
+          if (carouselItems.length === 0) return;
+          stopAutoScroll(); // Clear existing interval before starting a new one
           autoScrollInterval = setInterval(nextSlide, 3000);
       }
 
@@ -310,11 +483,21 @@
       }
 
       // Initialize carousel
-      startAutoScroll();
+      if (carouselItems.length > 0) {
+          updateCarouselDimensions();
+          startAutoScroll();
+          carouselWrapper.addEventListener('mouseenter', stopAutoScroll);
+          carouselWrapper.addEventListener('mouseleave', startAutoScroll);
+      }
+      
+      window.addEventListener('resize', () => {
+          if (carouselItems.length > 0) {
+              stopAutoScroll(); // Pause scroll during resize
+              updateCarouselDimensions(); // Recalculate and reposition
+              startAutoScroll(); // Resume scroll
+          }
+      });
 
-      // Pause auto-scroll on hover (optional)
-      carouselWrapper.addEventListener('mouseenter', stopAutoScroll);
-      carouselWrapper.addEventListener('mouseleave', startAutoScroll);
 
       function toggleHelp() {
         const helpBox = document.getElementById("helpContent");
@@ -330,16 +513,24 @@
         window.location.href = "index.html"; // Change to your actual login page
       }
 
+      // Improved click-outside logic
       document.addEventListener("click", function(event) {
-        const help = document.getElementById("helpContent");
-        const profile = document.getElementById("profileDropdown");
+        const helpContent = document.getElementById("helpContent");
+        const helpButton = document.querySelector(".help-button");
+        const profileDropdownContent = document.getElementById("profileDropdown");
+        const profileDropdownContainer = document.querySelector(".profile-dropdown"); // The whole .profile-dropdown element
 
-        if (!event.target.closest(".help-button")) {
-          help.style.display = "none";
+        // Close help content if click is outside the button AND outside the help content itself
+        if (helpButton && helpContent && helpContent.style.display === "block" &&
+            !helpButton.contains(event.target) &&
+            !helpContent.contains(event.target)) {
+          helpContent.style.display = "none";
         }
 
-        if (!event.target.closest(".profile-dropdown")) {
-          profile.style.display = "none";
+        // Close profile dropdown if click is outside the profile dropdown container (which includes the icon and the content)
+        if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
+            !profileDropdownContainer.contains(event.target)) {
+          profileDropdownContent.style.display = "none";
         }
       });
   </script>
