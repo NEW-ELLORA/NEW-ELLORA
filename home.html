@@ -107,17 +107,12 @@
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      height: 400px; /* Set a fixed height for the container */
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center; /*remove /cover*/
-      background-size: cover; /*cover the entire container**/
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center; /*center the title**/
+      height: 400px; /* Adjust as needed */
+      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center; /* IMPORTANT: The new background image */
+      background-size: cover;
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       overflow: hidden;
-      z-index: 1;
     }
 
     /* Gradient Background Behind */
@@ -246,7 +241,6 @@
 
   <!-- Welcome Content -->
   <div class="background-container">
-    <div class="welcome-text">Welcome to New Ellora!</div>
   </div>
 
   <div class="gallery-heading">Our Best Photograph Images</div>
