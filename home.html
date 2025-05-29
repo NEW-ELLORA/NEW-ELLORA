@@ -20,52 +20,6 @@
       background: linear-gradient(135deg, #fba834, #fcd34d);
     }
 
-    /* Responsive Fixes */
-@media (max-width: 768px) {
-  .taskbar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    align-items: flex-start;
-  }
-
-  .help-content {
-    position: static;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .dropdown-content {
-    position: static;
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .background-container {
-    width: 95%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-
-  .welcome-text {
-    font-size: 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .welcome-text {
-    font-size: 2rem;
-  }
-
-  .taskbar {
-    font-size: 14px;
-  }
-
-  .help-button {
-    padding: 4px 8px;
-  }
-}
-
     /* Top Taskbar */
     .taskbar {
       width: 100%;
@@ -146,7 +100,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      height: 50vh; /* Changed from fixed percentage to viewport height */
+      height: 50%; /* Changed from fixed percentage to viewport height */
       background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center/cover;
       display: flex;
       align-items: center;
@@ -171,7 +125,6 @@
     /* Welcome Text with RGB Animation */
     .welcome-text {
       font-size: 4rem;
-      max-font-size: 4rem;/* flexible font size */
       font-weight: bold;
       font-family: 'Dancing Script', cursive;
       text-align: center;
