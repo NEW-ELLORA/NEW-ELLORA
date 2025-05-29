@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Welcome to New Ellora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -16,18 +17,90 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
-      background: #000; /* fallback background */
+      background: #000;
     }
 
-    /* Container with custom background */
+    /* Top Taskbar */
+    .taskbar {
+      width: 100%;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .help-button {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .help-content {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 20px;
+      background-color: #ffffffdd;
+      color: black;
+      padding: 15px;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #ffffffdd;
+      min-width: 100px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content button {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .dropdown-content button:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Background Box */
     .background-container {
       position: absolute;
-      top: 0;
+      top: 60px; /* below taskbar */
       left: 50%;
       transform: translateX(-50%);
       height: 50%;
-      width: 100%;
-      background: url('camera_as_background_with_matching_text_format.jpeg') no-repeat center center/cover;
+      width: 90%;
+      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center/cover;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,12 +109,12 @@
       overflow: hidden;
     }
 
-    /* RGB color-changing welcome text */
+    /* Welcome Text with RGB Animation */
     .welcome-text {
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: bold;
+      font-family: 'Dancing Script', cursive;
       text-align: center;
-      font-family: 'Brush Script MT', cursive;
       text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
       animation: rgbFade 6s infinite alternate ease-in-out;
     }
@@ -56,9 +129,62 @@
   </style>
 </head>
 <body>
+
+  <!-- Top Taskbar -->
+  <div class="taskbar">
+    <div>
+      <button class="help-button" onclick="toggleHelp()">Help</button>
+      <div class="help-content" id="helpContent">
+        helpline number: "00000000"
+        gmail: 'gdjhdg@gmail.com"
+        This page welcomes the user after login. Use the Logout option in the profile menu to return.
+      </div>
+    </div>
+
+    <div class="profile-dropdown">
+      <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
+      <div class="dropdown-content" id="profileDropdown">
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Background Container -->
   <div class="background-container">
     <div class="welcome-text">Welcome to New Ellora!</div>
   </div>
+
+  <!-- JavaScript for Interactivity -->
+  <script>
+    function toggleHelp() {
+      const helpBox = document.getElementById("helpContent");
+      helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("profileDropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    function logout() {
+      window.location.href = "index.html"; // Change if your login page is named differently
+    }
+
+    // Close dropdown/help when clicking outside
+    document.addEventListener("click", function(event) {
+      const help = document.getElementById("helpContent");
+      const profile = document.getElementById("profileDropdown");
+
+      if (!event.target.closest(".help-button")) {
+        help.style.display = "none";
+      }
+
+      if (!event.target.closest(".profile-dropdown")) {
+        profile.style.display = "none";
+      }
+    });
+  </script>
+
 </body>
 </html>
 
