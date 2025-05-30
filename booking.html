@@ -15,6 +15,8 @@
       --info-box-text-color: #2c3e50;
       --input-border-color: #ced4da;
       --input-focus-border-color: #7971ea;
+      --button-gradient-start: #bc4e9c;
+      --button-gradient-end: #f80759;
     }
 
     * {
@@ -32,23 +34,11 @@
       flex-direction: column;
       align-items: center;
       color: var(--booking-text-color);
+      /* Add padding-bottom to ensure button is visible when content is long */
+      padding-bottom: 100px; /* Adjust as needed */
     }
 
-    .taskbar {
-      width: 100%;
-      height: 50px;
-      background: rgba(0, 0, 0, 0.7);
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
-    }
-
+    .taskbar { /* ... existing styles ... */ width: 100%; height: 50px; background: rgba(0, 0, 0, 0.7); color: var(--text-color); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: fixed; top: 0; left: 0; z-index: 100; }
     .taskbar-left { display: flex; align-items: center; gap: 15px; }
     .help-button { background: transparent; border: 1px solid var(--text-color); color: var(--text-color); padding: 6px 12px; border-radius: 5px; cursor: pointer; }
     .help-content { display: none; position: absolute; top: 55px; left: 20px; background-color: var(--background-color); color: black; padding: 15px; width: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 200; }
@@ -60,12 +50,7 @@
     .dropdown-content button { width: 100%; padding: 10px; background: transparent; border: none; cursor: pointer; text-align: left; color: #333; }
     .dropdown-content button:hover { background-color: #f1f1f1; }
 
-    .half-page-background {
-      width: 100%;
-      height: 50vh;
-      background: url('booking_text_image_in_the_style.jpeg') no-repeat center center;
-      background-size: cover;
-    }
+    .half-page-background { width: 100%; height: 50vh; background: url('booking_text_image_in_the_style.jpeg') no-repeat center center; background-size: cover; }
 
     .info-dialog-box {
       width: 80%;
@@ -75,86 +60,80 @@
       border-radius: 15px;
       padding: 25px;
       margin-top: 30px;
-      margin-bottom: 20px;
+      /* No margin-bottom on info-box itself, handled by button-container or content-below-dialog */
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       text-align: center;
       color: var(--info-box-text-color);
     }
 
-    .info-dialog-box-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #1c2833;
-    }
-
-    .personal-details-heading {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      color: var(--info-box-text-color);
-      text-align: center;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      padding-bottom: 10px;
-    }
-    .info-dialog-box form > .personal-details-heading:first-of-type {
-        margin-top: 10px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--info-box-text-color);
-      text-align: left;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="tel"],
-    .form-group input[type="number"], /* Added type="number" */
-    .form-group select,
-    .form-group textarea { /* Added textarea */
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--input-border-color);
-      border-radius: 6px;
-      background-color: rgba(255, 255, 255, 0.7);
-      font-size: 1rem;
-      color: var(--info-box-text-color);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      font-family: 'Segoe UI', sans-serif; /* Ensure textarea inherits font */
-    }
-
+    .info-dialog-box-title { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; color: #1c2833; }
+    .personal-details-heading { font-size: 1.3rem; font-weight: 600; margin-top: 20px; margin-bottom: 20px; color: var(--info-box-text-color); text-align: center; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px; }
+    .info-dialog-box form > .personal-details-heading:first-of-type { margin-top: 10px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--info-box-text-color); text-align: left; }
+    .form-group input[type="text"], .form-group input[type="tel"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--input-border-color); border-radius: 6px; background-color: rgba(255, 255, 255, 0.7); font-size: 1rem; color: var(--info-box-text-color); transition: border-color 0.3s ease, box-shadow 0.3s ease; font-family: 'Segoe UI', sans-serif; }
     .form-group select[multiple] { height: auto; min-height: 100px; }
-    .form-group textarea { resize: vertical; /* Allow vertical resize, disable horizontal */ }
+    .form-group textarea { resize: vertical; }
+    .form-group input[type="text"]:focus, .form-group input[type="tel"]:focus, .form-group input[type="number"]:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--input-focus-border-color); box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: #7f8c8d; }
+    .location-image-preview-container { margin-top: 15px; }
 
-    .form-group input[type="text"]:focus,
-    .form-group input[type="tel"]:focus,
-    .form-group input[type="number"]:focus, /* Added type="number" */
-    .form-group select:focus,
-    .form-group textarea:focus { /* Added textarea */
-      outline: none;
-      border-color: var(--input-focus-border-color);
-      box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
+    /* Button Container (Outside Info Box) */
+    .book-button-container {
+      width: 80%; /* Same as info-dialog-box for alignment */
+      max-width: 700px; /* Same as info-dialog-box */
+      margin: 15px auto 20px auto; /* Spacing: top, auto L/R, bottom */
+      text-align: right; /* Aligns button to the right within this container */
     }
-    
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { /* Added textarea placeholder */
-        color: #7f8c8d; 
+
+    .book-now-button {
+      background: linear-gradient(to right, var(--button-gradient-start), var(--button-gradient-end));
+      color: white;
+      border: none;
+      padding: 12px 30px; /* Slightly more padding */
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
-    
-    .location-image-preview-container {
-        margin-top: 15px;
+
+    .book-now-button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px); /* Slight lift on hover */
+    }
+    .book-now-button:active {
+        transform: translateY(0px); /* Press effect */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .book-now-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        opacity: 0.7;
     }
 
     .content-below-dialog { width: 100%; padding-bottom: 30px; text-align: center; }
-    .back-link { padding: 10px 20px; background-color: rgba(0, 0, 0, 0.05); color: var(--booking-text-color); text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
+    .back-link { /* ... existing styles ... */ padding: 10px 20px; background-color: rgba(0, 0, 0, 0.05); color: var(--booking-text-color); text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
     .back-link:hover { background-color: rgba(0, 0, 0, 0.1); }
+    
+    /* Confirmation Popup */
+    #confirmationPopup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(40, 40, 40, 0.9); /* Darker, classier */
+      color: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      z-index: 1001; /* Above taskbar */
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      font-size: 1.1em;
+    }
+
 
     @media (max-width: 768px) {
       .home-icon, .profile-icon { font-size: 22px; }
@@ -165,11 +144,10 @@
       .info-dialog-box-title { font-size: 1.5rem; }
       .personal-details-heading { font-size: 1.1rem; }
       .form-group label { font-size: 0.9rem;}
-      .form-group input[type="text"],
-      .form-group input[type="tel"],
-      .form-group input[type="number"],
-      .form-group select,
-      .form-group textarea { font-size: 0.95rem; padding: 8px 10px;}
+      .form-group input[type="text"], .form-group input[type="tel"], .form-group input[type="number"], .form-group select, .form-group textarea { font-size: 0.95rem; padding: 8px 10px;}
+      .book-button-container { width: 90%; padding-right: 10px; /* Adjust if needed for mobile */ }
+      .book-now-button { padding: 10px 20px; font-size: 1rem; }
+      #confirmationPopup { width: 85%; padding: 20px; font-size: 1em; }
     }
   </style>
 </head>
@@ -207,12 +185,10 @@
         <label for="userName">NAME:</label>
         <input type="text" id="userName" name="userName" placeholder="Enter your full name" required>
       </div>
-
       <div class="form-group">
         <label for="phoneNumber">PHONE NUMBER:</label>
         <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+91 XXXXX XXXXX" pattern="^\+91[1-9]\d{9}$" title="Please enter a valid Indian phone number (+91 followed by 10 digits)." required>
       </div>
-
       <div class="form-group">
         <label for="preferredLanguages">PREFERRED LANGUAGE(S):</label>
         <select id="preferredLanguages" name="preferredLanguages" multiple required>
@@ -229,9 +205,7 @@
         <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #555;">Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
       </div>
 
-      <!-- Occasion Details Section -->
       <div class="personal-details-heading">Occasion Details</div>
-
       <div class="form-group">
         <label for="occasionLocation">VENUE REGION / DISTRICT:</label>
         <select id="occasionLocation" name="occasionLocation" required>
@@ -242,64 +216,46 @@
           <option value="other">Other</option>
         </select>
       </div>
-      
       <div class="form-group location-image-preview-container">
         <img id="locationImagePreview" src="" alt="Location image" 
              style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; 
                     transition: opacity 0.3s ease-in-out; opacity: 0; display: none;">
       </div>
-
-      <!-- NEW Occasion Details Fields -->
       <div class="form-group">
         <label for="occasionName">OCCASION NAME:</label>
         <input type="text" id="occasionName" name="occasionName" placeholder="e.g., Birthday Party, Wedding Reception" required>
       </div>
-
       <div class="form-group">
         <label for="occasionAddress">FULL ADDRESS / VENUE DETAILS:</label>
         <textarea id="occasionAddress" name="occasionAddress" rows="3" placeholder="Enter the complete venue address and any specific directions" required></textarea>
       </div>
-
       <div class="form-group">
         <label for="numberOfMembers">NUMBER OF GUESTS (APPROX.):</label>
         <input type="number" id="numberOfMembers" name="numberOfMembers" min="1" inputmode="numeric" placeholder="e.g., 50" required>
       </div>
-      <!-- End NEW Occasion Details Fields -->
-      
-      <!-- End Occasion Details Section (Conceptually, the heading applies to all these) -->
-
-      <!-- Example: Submit button, uncomment if needed 
-      <div class="form-group" style="text-align: center; margin-top: 30px;">
-        <button type="submit" style="padding: 10px 25px; background-color: var(--input-focus-border-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit All Details</button>
-      </div>
-      -->
     </form>
+  </div>
+
+  <!-- BOOK Button Container -->
+  <div class="book-button-container">
+    <button id="bookNowButton" class="book-now-button">BOOK</button>
   </div>
 
   <div class="content-below-dialog">
     <a href="home.html" class="back-link">Go Back to Home</a>
   </div>
 
+  <!-- Confirmation Popup -->
+  <div id="confirmationPopup">
+    Request has been sent! <br> Please wait for the confirmation of your order.
+  </div>
+
   <script>
-    function toggleHelp() {
-      const helpBox = document.getElementById("helpContent");
-      if (helpBox) {
-        helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
-      }
-    }
+    function toggleHelp() { /* ... existing ... */ const helpBox = document.getElementById("helpContent"); if (helpBox) { helpBox.style.display = helpBox.style.display === "block" ? "none" : "block"; }}
+    function toggleDropdown() { /* ... existing ... */ const dropdown = document.getElementById("profileDropdown"); if (dropdown) { dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; }}
+    function logout() { /* ... existing ... */ window.location.href = "index.html"; }
 
-    function toggleDropdown() {
-      const dropdown = document.getElementById("profileDropdown");
-      if (dropdown) {
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-      }
-    }
-
-    function logout() {
-      window.location.href = "index.html";
-    }
-
-    document.addEventListener("click", function(event) {
+    document.addEventListener("click", function(event) { /* ... existing logic to close help/profile dropdowns ... */
       const helpContent = document.getElementById("helpContent");
       const helpButton = document.querySelector(".help-button");
       const profileDropdownContent = document.getElementById("profileDropdown");
@@ -309,14 +265,13 @@
           !helpButton.contains(event.target) && !helpContent.contains(event.target)) {
         helpContent.style.display = "none";
       }
-
       if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
           !profileDropdownContainer.contains(event.target)) {
         profileDropdownContent.style.display = "none";
       }
     });
 
-    const locationImages = {
+    const locationImages = { /* ... existing image map ... */
       'kasargod': 'https://via.placeholder.com/600x250.png?text=Scenic+Kasargod',
       'kannur': 'https://via.placeholder.com/600x250.png?text=Beautiful+Kannur',
       'kozhikode': 'https://via.placeholder.com/600x250.png?text=Historic+Kozhikode',
@@ -324,12 +279,11 @@
       'other': '' 
     };
 
-    function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) {
+    function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) { /* ... existing image update logic ... */
       if (!imgElement || !selectElement) return;
       const newImageUrl = locationImages[locationValue] || locationImages['other'];
       const selectedOption = selectElement.options[selectElement.selectedIndex];
       const locationDisplayName = selectedOption ? selectedOption.text : locationValue;
-      
       imgElement.alt = newImageUrl ? `Image for ${locationDisplayName}` : "No image available";
 
       if (isInitialLoad) {
@@ -343,26 +297,15 @@
       } else {
         imgElement.style.opacity = 0;
         setTimeout(() => {
-          imgElement.src = newImageUrl; // Set src first
+          imgElement.src = newImageUrl;
           if (newImageUrl) {
             imgElement.style.display = 'block';
-            const fadeIn = () => {
-              imgElement.style.opacity = 1;
-              imgElement.removeEventListener('load', fadeIn);
-              imgElement.removeEventListener('error', hideOnError);
-            };
-            const hideOnError = () => {
-                imgElement.style.display = 'none';
-                imgElement.removeEventListener('load', fadeIn);
-                imgElement.removeEventListener('error', hideOnError);
-            };
+            const fadeIn = () => { imgElement.style.opacity = 1; imgElement.removeEventListener('load', fadeIn); imgElement.removeEventListener('error', hideOnError); };
+            const hideOnError = () => { imgElement.style.display = 'none'; imgElement.removeEventListener('load', fadeIn); imgElement.removeEventListener('error', hideOnError); };
             imgElement.addEventListener('load', fadeIn);
             imgElement.addEventListener('error', hideOnError);
-            if (imgElement.complete && imgElement.src && imgElement.src !== window.location.href ) {
-               fadeIn();
-            } else if (!imgElement.src || imgElement.src === window.location.href) {
-               hideOnError();
-            }
+            if (imgElement.complete && imgElement.src && imgElement.src !== window.location.href ) { fadeIn(); } 
+            else if (!imgElement.src || imgElement.src === window.location.href) { hideOnError(); }
           } else {
             imgElement.style.display = 'none';
           }
@@ -373,6 +316,12 @@
     document.addEventListener('DOMContentLoaded', function() {
       const occasionLocationSelect = document.getElementById('occasionLocation');
       const locationImagePreview = document.getElementById('locationImagePreview');
+      const bookingForm = document.getElementById('bookingForm');
+      const bookNowButton = document.getElementById('bookNowButton');
+      const confirmationPopup = document.getElementById('confirmationPopup');
+
+      // WhatsApp Number (Company Head) - REPLACE WITH ACTUAL NUMBER
+      const companyWhatsappNumber = "910000000000"; // e.g., 91 for India, followed by 10 digits
 
       if (occasionLocationSelect && locationImagePreview) {
         updateLocationImage(occasionLocationSelect.value, locationImagePreview, occasionLocationSelect, true);
@@ -380,31 +329,79 @@
           updateLocationImage(this.value, locationImagePreview, this);
           if (this.value === 'other') {
             alert("Sorry, we are not available in this location yet.");
-            // Consider resetting:
-            // this.value = 'kasargod'; 
-            // updateLocationImage(this.value, locationImagePreview, this);
           }
         });
       }
 
-      const form = document.getElementById('bookingForm');
-      if (form) {
-        form.addEventListener('submit', function(event) {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation(); // Stop the event from bubbling further
-            alert("Please fill out all required fields correctly, including a valid phone number if entered.");
+      if (bookNowButton && bookingForm) {
+        bookNowButton.addEventListener('click', function() {
+          // 1. Validate the form
+          if (!bookingForm.checkValidity()) {
+            // Trigger browser's native validation UI
+            bookingForm.reportValidity(); 
+            // Or use custom alert:
+            // alert("Please fill out all required fields correctly before booking.");
+            
             // Focus on the first invalid field for better UX
-            const firstInvalidField = form.querySelector(':invalid');
+            const firstInvalidField = bookingForm.querySelector(':invalid');
             if (firstInvalidField) {
               firstInvalidField.focus();
             }
-          } else {
-            // If you were handling submission via JavaScript:
-            // event.preventDefault();
-            // console.log("Form submitted (simulated)");
-            // alert("Booking details submitted (simulation)!"); 
+            return; // Stop if form is invalid
           }
+
+          // Disable button to prevent multiple clicks
+          bookNowButton.disabled = true;
+          bookNowButton.textContent = "PROCESSING...";
+
+
+          // 2. Collect data
+          const userName = document.getElementById('userName').value;
+          const phoneNumber = document.getElementById('phoneNumber').value;
+          
+          const preferredLanguagesSelect = document.getElementById('preferredLanguages');
+          const preferredLanguages = Array.from(preferredLanguagesSelect.selectedOptions).map(option => option.text).join(', ');
+          
+          const occasionLocationSelect = document.getElementById('occasionLocation');
+          const occasionLocation = occasionLocationSelect.options[occasionLocationSelect.selectedIndex].text;
+
+          const occasionName = document.getElementById('occasionName').value;
+          const occasionAddress = document.getElementById('occasionAddress').value;
+          const numberOfMembers = document.getElementById('numberOfMembers').value;
+
+          // 3. Format message for WhatsApp
+          let message = `🎉 *New Booking Request* 🎉\n\n`;
+          message += `*Name:* ${userName}\n`;
+          message += `*Phone:* ${phoneNumber}\n`;
+          message += `*Preferred Languages:* ${preferredLanguages}\n\n`;
+          message += `--- *Occasion Details* ---\n`;
+          message += `*Venue Region:* ${occasionLocation}\n`;
+          message += `*Occasion Name:* ${occasionName}\n`;
+          message += `*Full Address:* ${occasionAddress}\n`;
+          message += `*Approx. Guests:* ${numberOfMembers}\n\n`;
+          message += `Please confirm availability and follow up.`;
+
+          const encodedMessage = encodeURIComponent(message);
+          const whatsappURL = `https://wa.me/${9035704969}?text=${encodedMessage}`;
+
+          // 4. Open WhatsApp
+          window.open(whatsappURL, '_blank'); // Opens in a new tab/window
+
+          // 5. Show confirmation popup
+          if (confirmationPopup) {
+            confirmationPopup.style.display = 'block';
+          }
+
+          // 6. Redirect after 5 seconds
+          setTimeout(() => {
+            if (confirmationPopup) {
+              confirmationPopup.style.display = 'none';
+            }
+            window.location.href = 'home.html';
+            // Re-enable button if user navigates back (though redirect usually prevents this)
+            // bookNowButton.disabled = false;
+            // bookNowButton.textContent = "BOOK";
+          }, 5000); // 5000 milliseconds = 5 seconds
         });
       }
     });
