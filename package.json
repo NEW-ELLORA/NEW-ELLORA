@@ -1,0 +1,7 @@
+{
+  "name": "new-ellora-booking",
+  "version": "1.0.0",
+  "dependencies": {
+    "nodemailer": "^6.9.7" // Use a recent version
+  }
+}
