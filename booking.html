@@ -7,16 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
   <style>
     :root {
-      --main-bg-start: #d3cce3; /* New main background gradient start */
-      --main-bg-end: #e9e4f0;   /* New main background gradient end */
-      --booking-text-color: #333333; /* Text color for content on new light background */
-      --text-color: white; /* For taskbar text */
-      --background-color: #ffffffdd; /* For dropdowns, help content */
-
-      /* Added for better variable management based on existing styles */
-      --info-box-text-color: #2c3e50; /* For text inside the info box, matches .info-dialog-box color */
-      --input-border-color: #ced4da; /* A common light grey for borders */
-      --input-focus-border-color: #7971ea; /* Based on existing focus shadow color rgb(121, 113, 234) */
+      --main-bg-start: #3E5151;
+      --main-bg-end: #DECBA4;
+      --booking-text-color: #333333;
+      --text-color: white;
+      --background-color: #ffffffdd;
+      --info-box-text-color: #2c3e50;
+      --input-border-color: #ced4da;
+      --input-focus-border-color: #7971ea;
     }
 
     * {
@@ -29,14 +27,13 @@
     html, body {
       height: 100%;
       width: 100%;
-      background: linear-gradient(135deg, var(#3E5151), var(#DECBA4));
+      background: linear-gradient(135deg, var(--main-bg-start), var(--main-bg-end));
       display: flex;
       flex-direction: column;
       align-items: center;
       color: var(--booking-text-color);
     }
 
-    /* --- Taskbar Styles --- */
     .taskbar {
       width: 100%;
       height: 50px;
@@ -52,95 +49,24 @@
       z-index: 100;
     }
 
-    .taskbar-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+    .taskbar-left { display: flex; align-items: center; gap: 15px; }
+    .help-button { background: transparent; border: 1px solid var(--text-color); color: var(--text-color); padding: 6px 12px; border-radius: 5px; cursor: pointer; }
+    .help-content { display: none; position: absolute; top: 55px; left: 20px; background-color: var(--background-color); color: black; padding: 15px; width: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 200; }
+    .home-icon-link { color: var(--text-color); text-decoration: none; display: flex; align-items: center; }
+    .home-icon { font-size: 26px; cursor: pointer; }
+    .profile-dropdown { position: relative; display: inline-block; }
+    .profile-icon { font-size: 24px; cursor: pointer; color: var(--text-color); }
+    .dropdown-content { display: none; position: absolute; right: 0; top: 35px; background-color: var(--background-color); min-width: 100px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 200; }
+    .dropdown-content button { width: 100%; padding: 10px; background: transparent; border: none; cursor: pointer; text-align: left; color: #333; }
+    .dropdown-content button:hover { background-color: #f1f1f1; }
 
-    .help-button {
-      background: transparent;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .help-content {
-      display: none;
-      position: absolute;
-      top: 55px;
-      left: 20px;
-      background-color: var(--background-color);
-      color: black;
-      padding: 15px;
-      width: 300px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
-    }
-
-    .home-icon-link {
-      color: var(--text-color);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
-    .home-icon {
-      font-size: 26px;
-      cursor: pointer;
-    }
-
-    .profile-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .profile-icon {
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--text-color);
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 35px;
-      background-color: var(--background-color);
-      min-width: 100px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
-    }
-
-    .dropdown-content button {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      color: #333;
-    }
-
-    .dropdown-content button:hover {
-      background-color: #f1f1f1;
-    }
-    /* --- End Taskbar Styles --- */
-
-    /* --- 50% Height Image Background Section --- */
     .half-page-background {
       width: 100%;
       height: 50vh;
       background: url('booking_text_image_in_the_style.jpeg') no-repeat center center;
       background-size: cover;
     }
-    /* --- End Image Background Section --- */
 
-    /* --- Transparent Information Box --- */
     .info-dialog-box {
       width: 80%;
       max-width: 700px;
@@ -162,16 +88,20 @@
       color: #1c2833;
     }
 
-    .personal-details-heading { /* Used for both "Personal details" and "Occasion Details" */
+    .personal-details-heading {
       font-size: 1.3rem;
       font-weight: 600;
-      margin-top: 10px; /* This provides spacing if it's not the first heading */
+      margin-top: 20px; /* Increased margin-top for headings after the first one */
       margin-bottom: 20px;
       color: var(--info-box-text-color);
       text-align: center;
       border-bottom: 1px solid rgba(0,0,0,0.1);
       padding-bottom: 10px;
     }
+    .info-dialog-box form > .personal-details-heading:first-of-type {
+        margin-top: 10px; /* Standard margin for the first heading */
+    }
+
 
     .form-group {
       margin-bottom: 20px;
@@ -182,7 +112,7 @@
       margin-bottom: 8px;
       font-weight: 500;
       color: var(--info-box-text-color);
-      text-align: left; /* Align labels to the left for standard form appearance */
+      text-align: left;
     }
 
     .form-group input[type="text"],
@@ -198,10 +128,7 @@
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .form-group select[multiple] {
-        height: auto;
-        min-height: 100px;
-    }
+    .form-group select[multiple] { height: auto; min-height: 100px; }
 
     .form-group input[type="text"]:focus,
     .form-group input[type="tel"]:focus,
@@ -211,33 +138,16 @@
       box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
     }
     
-    .form-group input::placeholder {
-        color: #7f8c8d; /* Placeholder text color */
-    }
-    /* --- End Information Box --- */
-
-
-    .content-below-dialog {
-        width: 100%;
-        padding-bottom: 30px;
-        text-align: center;
+    .form-group input::placeholder { color: #7f8c8d; }
+    
+    /* Style for the location image preview container (optional, for spacing/layout) */
+    .location-image-preview-container {
+        margin-top: 15px; /* Add some space above the image */
     }
 
-    .back-link {
-      padding: 10px 20px;
-      background-color: rgba(0, 0, 0, 0.05);
-      color: var(--booking-text-color);
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-      display: inline-block;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .back-link:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+    .content-below-dialog { width: 100%; padding-bottom: 30px; text-align: center; }
+    .back-link { padding: 10px 20px; background-color: rgba(0, 0, 0, 0.05); color: var(--booking-text-color); text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
+    .back-link:hover { background-color: rgba(0, 0, 0, 0.1); }
 
     @media (max-width: 768px) {
       .home-icon, .profile-icon { font-size: 22px; }
@@ -320,17 +230,20 @@
           <option value="kannur">Kannur</option>
           <option value="kozhikode">Kozhikode</option>
           <option value="mangalore">Mangalore</option>
-          <!-- Add more specific locations as needed -->
           <option value="other">Other</option>
         </select>
       </div>
+      
+      <!-- Location Image Preview -->
+      <div class="form-group location-image-preview-container">
+        <img id="locationImagePreview" src="" alt="Location image" 
+             style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; 
+                    margin-top: 0; /* Removed top margin as container has it */
+                    transition: opacity 0.3s ease-in-out; opacity: 0; display: none;">
+      </div>
       <!-- End Occasion Details Section -->
 
-      <!-- Example: Submit button, uncomment if needed 
-      <div class="form-group" style="text-align: center; margin-top: 30px;">
-        <button type="submit" style="padding: 10px 25px; background-color: var(--input-focus-border-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit Details</button>
-      </div>
-      -->
+      <!-- Example: Submit button (optional) -->
     </form>
   </div>
 
@@ -364,8 +277,7 @@
       const profileDropdownContainer = document.querySelector(".profile-dropdown");
 
       if (helpButton && helpContent && helpContent.style.display === "block" &&
-          !helpButton.contains(event.target) &&
-          !helpContent.contains(event.target)) {
+          !helpButton.contains(event.target) && !helpContent.contains(event.target)) {
         helpContent.style.display = "none";
       }
 
@@ -375,40 +287,104 @@
       }
     });
 
-    // Handle "Other" location selection
-    const occasionLocationSelect = document.getElementById('occasionLocation');
-    if (occasionLocationSelect) {
-      occasionLocationSelect.addEventListener('change', function() {
-        if (this.value === 'other') {
-          alert("Sorry, we are not available in this location yet.");
-          // Optional: If "Other" is selected and is not a valid final choice,
-          // you might want to reset it to the default or a previously selected valid option.
-          // For example, to reset to Kasargod:
-          // this.value = 'kasargod'; 
+    // --- Location Image Logic ---
+    const locationImages = {
+      'kasargod': 'download.jpg', // Replace with your image path
+      'kannur': 'download.png',   // Replace with your image path
+      'kozhikode': 'https://via.placeholder.com/600x250.png?text=Historic+Kozhikode',// Replace with your image path
+      'mangalore': 'https://via.placeholder.com/600x250.png?text=Vibrant+Mangalore', // Replace with your image path
+      'other': '' // No image for "Other"
+    };
+
+    function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) {
+      if (!imgElement || !selectElement) return;
+
+      const newImageUrl = locationImages[locationValue] || locationImages['other']; // Default to 'other' if value not in map
+      const selectedOption = selectElement.options[selectElement.selectedIndex];
+      const locationDisplayName = selectedOption ? selectedOption.text : locationValue;
+      
+      imgElement.alt = newImageUrl ? `Image for ${locationDisplayName}` : "No image available";
+
+      if (isInitialLoad) {
+        imgElement.src = newImageUrl;
+        if (newImageUrl) {
+          imgElement.style.display = 'block';
+          imgElement.style.opacity = 1;
+        } else {
+          imgElement.style.display = 'none';
         }
-      });
+      } else {
+        imgElement.style.opacity = 0; // Start fade out
+        setTimeout(() => {
+          imgElement.src = newImageUrl;
+          if (newImageUrl) {
+            imgElement.style.display = 'block';
+            // Ensure fade-in happens after the image is (re)loaded
+            // This handles cached images as well as new ones.
+            const fadeIn = () => {
+              imgElement.style.opacity = 1;
+              imgElement.removeEventListener('load', fadeIn); // Clean up
+              imgElement.removeEventListener('error', hideOnError); // Clean up
+            };
+            const hideOnError = () => {
+                imgElement.style.display = 'none'; // Hide if image fails to load
+                imgElement.removeEventListener('load', fadeIn);
+                imgElement.removeEventListener('error', hideOnError);
+            };
+
+            imgElement.addEventListener('load', fadeIn);
+            imgElement.addEventListener('error', hideOnError);
+            
+            // If the image is already loaded (e.g. from cache, or src is set to same as before),
+            // 'load' might not fire. Check .complete property.
+            // Also ensure src is not empty string, as .complete might be true for empty src.
+            if (imgElement.complete && imgElement.src && imgElement.src !== window.location.href ) { // window.location.href check for empty src becoming base URL
+               fadeIn();
+            } else if (!imgElement.src || imgElement.src === window.location.href) { // if src became empty (no new image)
+               hideOnError(); // effectively hide it
+            }
+
+          } else { // No new image URL
+            imgElement.style.display = 'none';
+            // imgElement.style.opacity = 1; // Opacity doesn't matter if display is none, but reset if it could become visible
+          }
+        }, 300); // Corresponds to CSS opacity transition duration
+      }
     }
 
-    // Form validation logic
-    const form = document.getElementById('bookingForm');
-    if (form) {
-      form.addEventListener('submit', function(event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          alert("Please fill out all required fields correctly, including a valid phone number if entered.");
-        } else {
-          // Optional: Handle form submission here (e.g., send data with Fetch API)
-          // event.preventDefault(); // Keep this if you're handling submission with JS
-          // console.log("Form submitted (simulated)");
-          // Example of getting all form data:
-          // const formData = new FormData(form);
-          // for (let [key, value] of formData.entries()) {
-          //   console.log(key, value);
-          // }
-          // alert("Form data logged to console (simulated submission).");
-        }
-      });
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const occasionLocationSelect = document.getElementById('occasionLocation');
+      const locationImagePreview = document.getElementById('locationImagePreview');
+
+      // Initialize location image on page load
+      if (occasionLocationSelect && locationImagePreview) {
+        updateLocationImage(occasionLocationSelect.value, locationImagePreview, occasionLocationSelect, true);
+
+        occasionLocationSelect.addEventListener('change', function() {
+          updateLocationImage(this.value, locationImagePreview, this);
+          if (this.value === 'other') {
+            alert("Sorry, we are not available in this location yet.");
+            // Optionally reset the dropdown if 'Other' isn't a final valid state:
+            // this.value = 'kasargod'; 
+            // updateLocationImage(this.value, locationImagePreview, this);
+          }
+        });
+      }
+
+      // Form validation logic
+      const form = document.getElementById('bookingForm');
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            alert("Please fill out all required fields correctly, including a valid phone number if entered.");
+          } else {
+            // event.preventDefault(); // Uncomment if handling submission via JS/AJAX
+            // console.log("Form submitted (simulated)");
+          }
+        });
+      }
+    });
   </script>
 
 </body>
