@@ -182,6 +182,10 @@
         <input type="text" id="userName" name="userName" placeholder="Enter your full name" required>
       </div>
       <div class="form-group">
+        <label for="userEmail">YOUR EMAIL ADDRESS:</label>
+        <input type="email" id="userEmail" name="userEmail" placeholder="e.g., yourname@example.com" required title="Please enter a valid email address.">
+      </div>
+      <div class="form-group">
         <label for="phoneNumber">PHONE NUMBER:</label>
         <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+91 XXXXX XXXXX" pattern="^\+91[1-9]\d{9}$" title="Please enter a valid Indian phone number (+91 followed by 10 digits)." required>
       </div>
@@ -270,54 +274,53 @@
       'kannur': 'https://via.placeholder.com/600x250.png?text=Beautiful+Kannur',
       'kozhikode': 'https://via.placeholder.com/600x250.png?text=Historic+Kozhikode',
       'mangalore': 'https://via.placeholder.com/600x250.png?text=Vibrant+Mangalore',
-      'other': '' 
+      'other': ''
     };
 
     function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) {
       if (!imgElement || !selectElement) return;
-      let newImageUrl = locationImages[locationValue] || locationImages['other'] || ''; // Ensure '' if not found
+      let newImageUrl = locationImages[locationValue] || locationImages['other'] || '';
 
-      // Robustly get selected option text
-      let locationDisplayName = locationValue; // Default
+      let locationDisplayName = locationValue;
       if (selectElement && typeof selectElement.selectedIndex === 'number' && selectElement.options && selectElement.options[selectElement.selectedIndex]) {
           locationDisplayName = selectElement.options[selectElement.selectedIndex].text;
       }
       imgElement.alt = newImageUrl ? `Image for ${locationDisplayName}` : "No image available";
 
       const performFadeIn = () => {
-          if (newImageUrl && imgElement.src && imgElement.src !== window.location.href && imgElement.naturalWidth !== 0) { // check if image loaded successfully
+          if (newImageUrl && imgElement.src && imgElement.src !== window.location.href && imgElement.naturalWidth !== 0) {
               imgElement.style.display = 'block';
               imgElement.style.opacity = 1;
           } else {
-              imgElement.style.display = 'none'; // Hide if src is empty or image failed
+              imgElement.style.display = 'none';
           }
           imgElement.removeEventListener('load', performFadeIn);
-          imgElement.removeEventListener('error', performFadeIn); // Also handles error case to ensure state change
+          imgElement.removeEventListener('error', performFadeIn);
       };
-      
+
       if (isInitialLoad) {
         imgElement.src = newImageUrl;
-        if (imgElement.complete && newImageUrl) { // If cached or already loaded
+        if (imgElement.complete && newImageUrl) {
             performFadeIn();
         } else if (newImageUrl) {
             imgElement.addEventListener('load', performFadeIn);
-            imgElement.addEventListener('error', performFadeIn); // Use same handler to hide if error
+            imgElement.addEventListener('error', performFadeIn);
         } else {
-            performFadeIn(); // Will hide if newImageUrl is empty
+            performFadeIn();
         }
       } else {
         imgElement.style.opacity = 0;
         setTimeout(() => {
-          imgElement.src = newImageUrl; // Set src AFTER starting fade-out
-          if (imgElement.complete && newImageUrl) { // If cached or already loaded
+          imgElement.src = newImageUrl;
+          if (imgElement.complete && newImageUrl) {
             performFadeIn();
           } else if (newImageUrl) {
             imgElement.addEventListener('load', performFadeIn);
             imgElement.addEventListener('error', performFadeIn);
           } else {
-            performFadeIn(); // Will hide if newImageUrl is empty
+            performFadeIn();
           }
-        }, 300); // Corresponds to CSS opacity transition duration
+        }, 300);
       }
     }
 
@@ -328,10 +331,24 @@
       const bookNowButton = document.getElementById('bookNowButton');
       const confirmationPopup = document.getElementById('confirmationPopup');
 
-      //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      //  !!! YOUR NETLIFY FUNCTION URL - THIS IS THE MOST IMPORTANT UPDATE    !!!
-      //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       const serverEndpointURL = "https://new-ellora.netlify.app/.netlify/functions/handle-booking";
+
+      // ***** START: NEW/MODIFIED CODE for pre-filling userEmail *****
+      const userEmailField = document.getElementById('userEmail'); // Get the new email input field
+      if (userEmailField) { // Check if the field exists
+          const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
+          if (loggedInUserEmail) {
+              userEmailField.value = loggedInUserEmail;
+              console.log("Pre-filled email from localStorage:", loggedInUserEmail);
+              // Optional: Make it readonly if you don't want the user to change it
+              // userEmailField.readOnly = true;
+          } else {
+              console.log("No loggedInUserEmail found in localStorage.");
+          }
+      } else {
+          console.warn("HTML Element with ID 'userEmail' not found for pre-filling.");
+      }
+      // ***** END: NEW/MODIFIED CODE for pre-filling userEmail *****
 
 
       if (occasionLocationSelect && locationImagePreview) {
@@ -345,39 +362,36 @@
       }
 
       if (bookNowButton && bookingForm) {
-        // MODIFIED: Made the event listener function async
         bookNowButton.addEventListener('click', async function() {
-          // 1. Validate the form
           if (!bookingForm.checkValidity()) {
-            bookingForm.reportValidity(); 
+            bookingForm.reportValidity();
             const firstInvalidField = bookingForm.querySelector(':invalid');
             if (firstInvalidField) {
               firstInvalidField.focus();
             }
-            return; 
+            return;
           }
 
           bookNowButton.disabled = true;
-          bookNowButton.textContent = "SENDING REQUEST..."; // MODIFIED: Button text
+          bookNowButton.textContent = "SENDING REQUEST...";
 
-          // 2. Collect data into an object
           const preferredLanguagesSelect = document.getElementById('preferredLanguages');
-          // Use a different variable name for the occasionLocation select element inside this scope
-          // to avoid conflict if `occasionLocationSelect` from outer scope is accidentally used.
-          const occasionLocationSelectInternal = document.getElementById('occasionLocation'); 
+          const occasionLocationSelectInternal = document.getElementById('occasionLocation');
 
+          // ***** MODIFIED: Add userEmail to bookingData *****
           const bookingData = {
               userName: document.getElementById('userName') ? document.getElementById('userName').value : '',
               phoneNumber: document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : '',
+              userEmail: document.getElementById('userEmail') ? document.getElementById('userEmail').value : '', // <<< COLLECTS FROM THE NEW FIELD
               preferredLanguages: preferredLanguagesSelect ? Array.from(preferredLanguagesSelect.selectedOptions).map(option => option.value) : [],
               occasionLocation: occasionLocationSelectInternal ? occasionLocationSelectInternal.value : '',
               occasionName: document.getElementById('occasionName') ? document.getElementById('occasionName').value : '',
               occasionAddress: document.getElementById('occasionAddress') ? document.getElementById('occasionAddress').value : '',
               numberOfMembers: document.getElementById('numberOfMembers') ? document.getElementById('numberOfMembers').value : '',
-              timestamp: new Date().toISOString() 
+              timestamp: new Date().toISOString()
           };
+          // ***** END MODIFICATION *****
 
-          // 3. Send data to Netlify Function using fetch
           try {
               const response = await fetch(serverEndpointURL, {
                   method: 'POST',
@@ -387,10 +401,9 @@
                   body: JSON.stringify(bookingData)
               });
 
-              // 4. Handle the server's response
-              if (response.ok) { 
-                  const result = await response.json(); 
-                  console.log('Server response:', result); 
+              if (response.ok) {
+                  const result = await response.json();
+                  console.log('Server response:', result);
 
                   if (confirmationPopup) {
                       confirmationPopup.innerHTML = result.message || "Request has been sent! <br> Please wait for the confirmation.";
@@ -401,31 +414,29 @@
                       if (confirmationPopup) {
                           confirmationPopup.style.display = 'none';
                       }
-                      window.location.href = 'home.html'; 
-                  }, 5000); 
+                      window.location.href = 'home.html';
+                  }, 5000);
               } else {
-                  
-                  const errorText = await response.text(); 
+                  const errorText = await response.text();
                   console.error('Server error:', response.status, errorText);
                   alert(`Error submitting booking. Server responded with: ${response.status}. ${errorText || 'Please try again.'}`);
-                  
+
                   if (confirmationPopup) {
                        confirmationPopup.innerHTML = `Submission Failed (Server Error: ${response.status}). Please try again.`;
                        confirmationPopup.style.display = 'block';
-                       setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000); 
+                       setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
                   }
                   bookNowButton.disabled = false;
                   bookNowButton.textContent = "BOOK";
               }
           } catch (error) {
-              
               console.error('Network error or other fetch issue:', error);
               alert("Error: Could not connect to the server. Please check your internet connection and try again.");
-              
+
               if (confirmationPopup) {
                  confirmationPopup.innerHTML = "Network Error. Please try again.";
                  confirmationPopup.style.display = 'block';
-                 setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000); 
+                 setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
               }
               bookNowButton.disabled = false;
               bookNowButton.textContent = "BOOK";
@@ -434,6 +445,3 @@
       }
     });
   </script>
-
-</body>
-</html>
