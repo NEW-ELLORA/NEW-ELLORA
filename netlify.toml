@@ -1,0 +1,3 @@
+[build]
+  publish = "/"  # Assuming booking.html is in the root. If it's in 'public/', use 'public/'.
+  functions = "netlify/functions"
