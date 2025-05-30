@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking - New Ellora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Using the primary color from your main page for the background */
+      /* Or you can use the gradient from the main page if you prefer */
+      --booking-page-bg: #fba834; /* This is your --primary-color */
+      --booking-text-color: #333333; /* Dark text for readability */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: var(--booking-page-bg);
+      /* If you want the exact same gradient as the main page body:
+         background: linear-gradient(135deg, #fba834, #fcd34d);
+      */
+      display: flex;
+      flex-direction: column; /* To allow for a back button below */
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--booking-text-color);
+    }
+
+    .booking-heading {
+      font-size: 3.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      /* Optional text shadow if you want a similar feel to the welcome text */
+      /* text-shadow: 1px 1px 5px rgba(0,0,0,0.3); */
+    }
+
+    .back-link {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: rgba(0, 0, 0, 0.1);
+      color: var(--booking-text-color);
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .booking-heading {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="booking-heading">Booking</h1>
+
+  <!-- Optional: Add a link to go back to the main page -->
+  <a href="home.html" class="back-link">Go Back to Home</a>
+  <!-- Make sure "home.html" is the correct name of your main page file -->
+
+  <!-- You can add more booking-specific content here later -->
+
+</body>
+</html>
