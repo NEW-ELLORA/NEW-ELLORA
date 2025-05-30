@@ -7,13 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Using the primary color from your main page for the background */
-      --booking-page-bg: #fba834; /* This is your --primary-color */
-      --booking-text-color: #333333; /* Dark text for readability */
-
-      /* Variables needed for the taskbar (copied from your main page's CSS) */
+      --booking-page-bg: #fba834;
+      --booking-text-color: #333333;
       --text-color: white;
-      --background-color: #ffffffdd; /* For dropdown background */
+      --background-color: #ffffffdd;
     }
 
     * {
@@ -26,24 +23,21 @@
     html, body {
       height: 100%;
       width: 100%;
-      background-color: var(--booking-page-bg);
-      /* If you want the exact same gradient as the main page body:
-         background: linear-gradient(135deg, #fba834, #fcd34d);
-      */
+      background-color: var(--booking-page-bg); /* This is the main orange background */
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      /* justify-content: center; No longer globally centering all content vertically */
+      align-items: center; /* Center block-level children horizontally */
+      /* text-align: center; Remove global text-align, apply where needed */
       color: var(--booking-text-color);
-      padding-top: 70px; /* Adjusted padding for better spacing after fixed taskbar */
+      padding-top: 50px; /* Account for fixed taskbar height */
     }
 
     /* --- Taskbar Styles --- */
     .taskbar {
       width: 100%;
       height: 50px;
-      background: rgba(0, 0, 0, 0.7); /* Same as your main page taskbar */
+      background: rgba(0, 0, 0, 0.7);
       color: var(--text-color);
       display: flex;
       align-items: center;
@@ -56,9 +50,9 @@
     }
 
     .taskbar-left {
-      display: flex; /* Align items in a row */
-      align-items: center; /* Vertically center them */
-      gap: 15px; /* Add some space between the help button and home icon */
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .help-button {
@@ -92,7 +86,7 @@
     }
 
     .home-icon {
-      font-size: 26px; /* Adjust size as needed */
+      font-size: 26px;
       cursor: pointer;
     }
 
@@ -107,14 +101,12 @@
       color: var(--text-color);
     }
 
-    /* REMOVED .background-container CSS rule from here */
-
     .dropdown-content {
       display: none;
       position: absolute;
       right: 0;
-      top: 35px; /* Adjust to position below the icon */
-      background-color: var(--background-color); /* Uses variable from root */
+      top: 35px;
+      background-color: var(--background-color);
       min-width: 100px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -128,7 +120,7 @@
       border: none;
       cursor: pointer;
       text-align: left;
-      color: #333; /* Text color for dropdown items */
+      color: #333;
     }
 
     .dropdown-content button:hover {
@@ -136,24 +128,38 @@
     }
     /* --- End Taskbar Styles --- */
 
-    /* Styles for the main content of the booking page */
-    .booking-heading {
-      font-size: 3.5rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      color: var(--booking-text-color); /* Ensure it uses the dark text on orange */
+    /* --- New 50% Height Background Section --- */
+    .half-page-background {
+      width: 100%;
+      height: 50vh; /* 50% of the viewport height */
+      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center; /* Your desired background image */
+      background-size: cover;
+      /* You can add other background properties here if needed, like background-color as a fallback */
+      /* No margin needed as body padding-top handles offset from taskbar */
+    }
+    /* --- End New Background Section --- */
+
+
+    /* Styles for the content below the new background (e.g., the back link) */
+    .content-below-background {
+        width: 100%; /* Take full width to allow text-align:center for the link */
+        padding: 30px 0; /* Add some spacing above and below the link */
+        text-align: center; /* Center the back link */
+        /* This container will sit on the main orange page background */
     }
 
+    /* .booking-heading CSS rule is removed as the H1 is gone */
+
     .back-link {
-      margin-top: 30px;
+      /* margin-top: 30px; Is now handled by padding in .content-below-background */
       padding: 10px 20px;
       background-color: rgba(0, 0, 0, 0.1);
-      color: var(--booking-text-color); /* Ensure it uses the dark text on orange */
+      color: var(--booking-text-color);
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
       transition: background-color 0.3s ease;
+      display: inline-block; /* Important for padding and centering if text-align is on parent */
     }
 
     .back-link:hover {
@@ -161,21 +167,22 @@
     }
 
     @media (max-width: 768px) {
-      .booking-heading {
-        font-size: 2.5rem;
-      }
-      .home-icon, .profile-icon { /* Grouped for brevity */
+      /* .booking-heading media query is removed */
+      .home-icon, .profile-icon {
         font-size: 22px;
       }
       .help-button {
-        padding: 5px 10px; /* Slightly smaller padding for smaller screens */
+        padding: 5px 10px;
         font-size: 0.9rem;
       }
       .taskbar-left {
-        gap: 10px; /* Reduce gap on smaller screens */
+        gap: 10px;
       }
-      body { /* Adjust body padding for smaller screens if taskbar items wrap or feel cramped */
-        padding-top: 60px;
+      html, body { /* Ensure body padding matches taskbar height */
+        padding-top: 50px;
+      }
+      .half-page-background {
+          height: 50vh; /* Maintain 50vh on smaller screens too */
       }
     }
   </style>
@@ -184,7 +191,6 @@
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <!-- Left side of the taskbar: Help button and Home Icon -->
     <div class="taskbar-left">
       <button class="help-button" onclick="toggleHelp()">Help</button>
       <div class="help-content" id="helpContent">
@@ -198,9 +204,6 @@
       </a>
     </div>
 
-    <!-- REMOVED the <div class="background-container"></div> from here -->
-
-    <!-- Right side of the taskbar: Profile/Logout dropdown -->
     <div class="profile-dropdown">
       <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
       <div class="dropdown-content" id="profileDropdown">
@@ -210,46 +213,50 @@
   </div>
   <!-- End Taskbar -->
 
-  <!-- Main content for the booking page -->
-  <h1 class="booking-heading">Booking</h1>
-  <a href="home.html" class="back-link">Go Back to Home</a>
-  <!-- End of main content -->
+  <!-- New 50% Height Background Section -->
+  <div class="half-page-background">
+    <!-- This div is purely for the background. No text content here unless you decide to add it later. -->
+  </div>
+  <!-- End New Background Section -->
+
+  <!-- Content below the new background -->
+  <div class="content-below-background">
+    <!-- The h1 class="booking-heading" has been REMOVED -->
+    <a href="home.html" class="back-link">Go Back to Home</a>
+  </div>
+  <!-- End of content -->
 
   <script>
     function toggleHelp() {
       const helpBox = document.getElementById("helpContent");
-      if (helpBox) { // Added check for robustness
+      if (helpBox) {
         helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
       }
     }
 
     function toggleDropdown() {
       const dropdown = document.getElementById("profileDropdown");
-      if (dropdown) { // Added check for robustness
+      if (dropdown) {
         dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
       }
     }
 
     function logout() {
-      // Assuming your login page is index.html
       window.location.href = "index.html";
     }
 
-    // Click-outside listener for BOTH dropdowns
     document.addEventListener("click", function(event) {
       const helpContent = document.getElementById("helpContent");
-      const helpButton = document.querySelector(".help-button"); // Make sure you have this selector
+      const helpButton = document.querySelector(".help-button");
       const profileDropdownContent = document.getElementById("profileDropdown");
       const profileDropdownContainer = document.querySelector(".profile-dropdown");
 
-      // Close help content if click is outside the button AND outside the help content itself
       if (helpButton && helpContent && helpContent.style.display === "block" &&
           !helpButton.contains(event.target) &&
           !helpContent.contains(event.target)) {
         helpContent.style.display = "none";
       }
 
-      // Close profile dropdown if click is outside the profile dropdown container
       if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
           !profileDropdownContainer.contains(event.target)) {
         profileDropdownContent.style.display = "none";
