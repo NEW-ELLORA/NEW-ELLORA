@@ -36,10 +36,10 @@
       align-items: center;
       text-align: center;
       color: var(--booking-text-color);
-      padding-top: 50px; /* Account for fixed taskbar height */
+      padding-top: 70px; /* Adjusted padding for better spacing after fixed taskbar */
     }
 
-    /* --- Taskbar Styles (Copied and adapted from your main page) --- */
+    /* --- Taskbar Styles --- */
     .taskbar {
       width: 100%;
       height: 50px;
@@ -56,11 +56,11 @@
     }
 
     .taskbar-left {
-  display: flex; /* Align items in a row */
-  align-items: center; /* Vertically center them */
-  gap: 15px; /* Add some space between the help button and home icon */
-   }
-   
+      display: flex; /* Align items in a row */
+      align-items: center; /* Vertically center them */
+      gap: 15px; /* Add some space between the help button and home icon */
+    }
+
     .help-button {
       background: transparent;
       border: 1px solid var(--text-color);
@@ -84,7 +84,6 @@
       z-index: 200;
     }
 
-
     .home-icon-link {
       color: var(--text-color);
       text-decoration: none;
@@ -95,10 +94,8 @@
     .home-icon {
       font-size: 26px; /* Adjust size as needed */
       cursor: pointer;
-      /* You can replace the emoji with an SVG or icon font if you prefer */
     }
 
-    /* Add this to your <style> block in booking.html */
     .profile-dropdown {
       position: relative;
       display: inline-block;
@@ -110,23 +107,7 @@
       color: var(--text-color);
     }
 
-    /* Background Container */
-    .background-container {
-      position: relative;
-      top: 0; /* Align with the top of the viewport */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 500px; /* Increased height to account for the taskbar */
-      background: url('booking_text_image_in_the_style.jpeg') no-repeat center;
-      background-size: cover;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-      display: flex; /* Enable Flexbox */
-      justify-content: center; /* Center horizontally */
-      align-items: center; /* Center vertically */
-    }
+    /* REMOVED .background-container CSS rule from here */
 
     .dropdown-content {
       display: none;
@@ -155,19 +136,20 @@
     }
     /* --- End Taskbar Styles --- */
 
-
+    /* Styles for the main content of the booking page */
     .booking-heading {
       font-size: 3.5rem;
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: 20px;
+      color: var(--booking-text-color); /* Ensure it uses the dark text on orange */
     }
 
     .back-link {
       margin-top: 30px;
       padding: 10px 20px;
       background-color: rgba(0, 0, 0, 0.1);
-      color: var(--booking-text-color);
+      color: var(--booking-text-color); /* Ensure it uses the dark text on orange */
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
@@ -182,11 +164,18 @@
       .booking-heading {
         font-size: 2.5rem;
       }
-      .home-icon {
+      .home-icon, .profile-icon { /* Grouped for brevity */
         font-size: 22px;
       }
-      .profile-icon {
-        font-size: 22px;
+      .help-button {
+        padding: 5px 10px; /* Slightly smaller padding for smaller screens */
+        font-size: 0.9rem;
+      }
+      .taskbar-left {
+        gap: 10px; /* Reduce gap on smaller screens */
+      }
+      body { /* Adjust body padding for smaller screens if taskbar items wrap or feel cramped */
+        padding-top: 60px;
       }
     }
   </style>
@@ -209,7 +198,7 @@
       </a>
     </div>
 
-    <div class="background-container"></div>
+    <!-- REMOVED the <div class="background-container"></div> from here -->
 
     <!-- Right side of the taskbar: Profile/Logout dropdown -->
     <div class="profile-dropdown">
@@ -220,17 +209,23 @@
     </div>
   </div>
   <!-- End Taskbar -->
- 
-  <script>
 
+  <!-- Main content for the booking page -->
+  <h1 class="booking-heading">Booking</h1>
+  <a href="home.html" class="back-link">Go Back to Home</a>
+  <!-- End of main content -->
+
+  <script>
     function toggleHelp() {
-        const helpBox = document.getElementById("helpContent");
+      const helpBox = document.getElementById("helpContent");
+      if (helpBox) { // Added check for robustness
         helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
       }
+    }
 
     function toggleDropdown() {
       const dropdown = document.getElementById("profileDropdown");
-      if (dropdown) {
+      if (dropdown) { // Added check for robustness
         dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
       }
     }
@@ -240,11 +235,21 @@
       window.location.href = "index.html";
     }
 
-    // Click-outside listener for profile dropdown
+    // Click-outside listener for BOTH dropdowns
     document.addEventListener("click", function(event) {
+      const helpContent = document.getElementById("helpContent");
+      const helpButton = document.querySelector(".help-button"); // Make sure you have this selector
       const profileDropdownContent = document.getElementById("profileDropdown");
       const profileDropdownContainer = document.querySelector(".profile-dropdown");
 
+      // Close help content if click is outside the button AND outside the help content itself
+      if (helpButton && helpContent && helpContent.style.display === "block" &&
+          !helpButton.contains(event.target) &&
+          !helpContent.contains(event.target)) {
+        helpContent.style.display = "none";
+      }
+
+      // Close profile dropdown if click is outside the profile dropdown container
       if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
           !profileDropdownContainer.contains(event.target)) {
         profileDropdownContent.style.display = "none";
