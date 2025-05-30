@@ -55,6 +55,30 @@
       z-index: 100;
     }
 
+    .help-button {
+      background: transparent;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .help-content {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 20px;
+      background-color: var(--background-color);
+      color: black;
+      padding: 15px;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 200;
+    }
+
+
     .home-icon-link {
       color: var(--text-color);
       text-decoration: none;
@@ -147,14 +171,6 @@
   <!-- Taskbar -->
   <div class="taskbar">
     <div>
-      <a href="home.html" class="home-icon-link" aria-label="Go to Home">
-        <span class="home-icon">🏠</span>
-        <!-- Alternative using an SVG (example - you'd need the actual SVG code)
-        <svg class="home-icon" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        -->
-      </a>
-    </div>
-    <div>
       <button class="help-button" onclick="toggleHelp()">Help</button>
       <div class="help-content" id="helpContent">
         Helpline Number: <b>00000000</b><br>
@@ -162,7 +178,15 @@
         This page welcomes the user after login.<br>
         Use the Logout option in the profile menu to return.
       </div>
-
+    </div> 
+      <a href="home.html" class="home-icon-link" aria-label="Go to Home">
+        <span class="home-icon">🏠</span>
+        <!-- Alternative using an SVG (example - you'd need the actual SVG code)
+        <svg class="home-icon" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        -->
+      </a>
+    </div>
+      
     <div class="profile-dropdown">
       <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
       <div class="dropdown-content" id="profileDropdown">
@@ -180,6 +204,12 @@
 
 
   <script>
+
+    function toggleHelp() {
+        const helpBox = document.getElementById("helpContent");
+        helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
+      }
+
     function toggleDropdown() {
       const dropdown = document.getElementById("profileDropdown");
       if (dropdown) {
