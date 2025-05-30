@@ -9,15 +9,12 @@
     :root {
       --main-bg-start: #d3cce3;
       --main-bg-end: #e9e4f0;
-      --content-text-color: #333333; /* Text on the main gradient background */
-      --taskbar-text-color: white;
-      --dialog-popup-bg: #ffffffdd; /* For dropdowns, help content bg */
-
-      /* Added/Updated Variables for Info Box and Forms */
-      --input-border-color: #b0aac0;
-      --input-focus-border-color: #7971ea;
-      --info-box-text-color: #2c3e50; /* Text inside the info box */
-      --info-box-title-color: #1c2833; /* Title inside the info box */
+      --booking-text-color: #333333;
+      --text-color: white;
+      --background-color: #ffffffdd;
+      --input-border-color: #ccc;
+      --input-focus-border-color: #796fea;
+      --info-box-text-color: #2c3e50;
     }
 
     * {
@@ -33,16 +30,15 @@
       background: linear-gradient(135deg, var(--main-bg-start), var(--main-bg-end));
       display: flex;
       flex-direction: column;
-      align-items: center; /* Centers block children like .info-dialog-box */
-      color: var(--content-text-color);
+      align-items: center;
+      color: var(--booking-text-color);
     }
 
-    /* --- Taskbar Styles --- */
     .taskbar {
       width: 100%;
       height: 50px;
       background: rgba(0, 0, 0, 0.7);
-      color: var(--taskbar-text-color);
+      color: var(--text-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -61,8 +57,8 @@
 
     .help-button {
       background: transparent;
-      border: 1px solid var(--taskbar-text-color);
-      color: var(--taskbar-text-color);
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
       padding: 6px 12px;
       border-radius: 5px;
       cursor: pointer;
@@ -73,8 +69,8 @@
       position: absolute;
       top: 55px;
       left: 20px;
-      background-color: var(--dialog-popup-bg);
-      color: var(--info-box-text-color); /* Using info-box text for consistency */
+      background-color: var(--background-color);
+      color: black;
       padding: 15px;
       width: 300px;
       border-radius: 8px;
@@ -83,7 +79,7 @@
     }
 
     .home-icon-link {
-      color: var(--taskbar-text-color);
+      color: var(--text-color);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -102,72 +98,61 @@
     .profile-icon {
       font-size: 24px;
       cursor: pointer;
-      color: var(--taskbar-text-color);
+      color: var(--text-color);
     }
 
     .dropdown-content {
       display: none;
       position: absolute;
       right: 0;
-      top: 35px; /* Adjust if needed based on icon size and padding */
-      background-color: var(--dialog-popup-bg);
+      top: 35px;
+      background-color: var(--background-color);
       min-width: 100px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       z-index: 200;
-      overflow: hidden; /* Ensures rounded corners apply to buttons */
     }
 
     .dropdown-content button {
       width: 100%;
-      padding: 10px 15px;
+      padding: 10px;
       background: transparent;
       border: none;
       cursor: pointer;
       text-align: left;
-      color: var(--info-box-text-color); /* Consistent text color */
-      font-size: 0.95rem;
+      color: #333;
     }
 
     .dropdown-content button:hover {
-      background-color: rgba(0,0,0,0.05);
+      background-color: #f1f1f1;
     }
-    /* --- End Taskbar Styles --- */
 
-    /* --- 50% Height Image Background Section --- */
     .half-page-background {
       width: 100%;
       height: 50vh;
-      /* IMPORTANT: Replace this placeholder URL with your actual image path */
-      background: url('https://via.placeholder.com/1920x540/D3CCE3/333333?text=Your+Background+Image+Here') no-repeat center center;
+      background: url('booking_text_image_in_the_style.jpeg') no-repeat center center;
       background-size: cover;
-      /* This div is a direct child of body and appears before the info-dialog-box in normal flow.
-         The fixed taskbar overlays its top portion. */
     }
-    /* --- End Image Background Section --- */
 
-    /* --- Transparent Information Box --- */
     .info-dialog-box {
       width: 80%;
       max-width: 700px;
-      background-color: rgba(255, 255, 255, 0.4); /* More opaque for better readability */
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); /* For Safari */
+      background-color: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
       border-radius: 15px;
-      padding: 25px 30px;
-      margin-top: 30px; /* Space below the 50vh image background */
+      padding: 25px;
+      margin-top: 30px;
       margin-bottom: 20px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      text-align: center; /* Main titles will be centered */
+      text-align: center;
       color: var(--info-box-text-color);
     }
 
     .info-dialog-box-title {
       font-size: 1.8rem;
       font-weight: bold;
-      margin-bottom: 25px;
-      color: var(--info-box-title-color);
-      text-align: center;
+      margin-bottom: 20px;
+      color: #1c2833;
     }
 
     .personal-details-heading {
@@ -175,7 +160,7 @@
       font-weight: 600;
       margin-top: 10px;
       margin-bottom: 20px;
-      color: var(--info-box-title-color); /* Using title color for subheading */
+      color: var(--info-box-text-color);
       text-align: center;
       border-bottom: 1px solid rgba(0,0,0,0.1);
       padding-bottom: 10px;
@@ -183,7 +168,6 @@
 
     .form-group {
       margin-bottom: 20px;
-      text-align: left; /* Ensures labels and inputs within are left-aligned */
     }
 
     .form-group label {
@@ -213,65 +197,79 @@
       border-color: var(--input-focus-border-color);
       box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
     }
-    
+
     .form-group select[multiple] {
-        height: auto;
-        min-height: 100px; /* Adjust as needed */
+      height: auto;
+      min-height: 100px;
     }
 
     .form-group input::placeholder {
-        color: #7f8c8d; /* Placeholder text color */
+      color: #7f8c8d;
     }
-    /* --- End Information Box --- */
 
-    /* Styles for the content below the info box */
     .content-below-dialog {
-        width: 100%;
-        padding-bottom: 30px;
-        margin-top: 0; /* info-dialog-box has margin-bottom */
-        text-align: center;
+      width: 100%;
+      padding-bottom: 30px;
+      text-align: center;
     }
 
     .back-link {
       padding: 10px 20px;
-      background-color: rgba(44, 62, 80, 0.07);
-      color: var(--info-box-title-color); /* Using a darker text color for better contrast */
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--booking-text-color);
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.3s ease;
       display: inline-block;
-      border: 1px solid rgba(44, 62, 80, 0.15);
+      border: 1px solid rgba(0,0,0,0.1);
     }
-    .back-link:hover { 
-      background-color: rgba(44, 62, 80, 0.15); 
-      color: var(--info-box-title-color);
+
+    .back-link:hover {
+      background-color: rgba(0, 0, 0, 0.1);
     }
 
     @media (max-width: 768px) {
-      .home-icon, .profile-icon { font-size: 22px; }
-      .help-button { padding: 5px 10px; font-size: 0.9rem; }
-      .taskbar-left { gap: 10px; }
-      /* .half-page-background height can be adjusted for mobile if 50vh is too much, e.g., 40vh or fixed px */
-      /* .half-page-background { height: 40vh; } */
-      .info-dialog-box { width: 90%; padding: 20px 25px; margin-top: 20px; }
-      .info-dialog-box-title { font-size: 1.5rem; }
-      .personal-details-heading { font-size: 1.1rem; }
-      .form-group label { font-size: 0.9rem;}
+      .home-icon, .profile-icon {
+        font-size: 22px;
+      }
+      .help-button {
+        padding: 5px 10px;
+        font-size: 0.9rem;
+      }
+      .taskbar-left {
+        gap: 10px;
+      }
+      .half-page-background {
+        height: 50vh;
+      }
+      .info-dialog-box {
+        width: 90%;
+        padding: 20px;
+        margin-top: 20px;
+      }
+      .info-dialog-box-title {
+        font-size: 1.5rem;
+      }
+      .personal-details-heading {
+        font-size: 1.1rem;
+      }
+      .form-group label {
+        font-size: 0.9rem;
+      }
       .form-group input[type="text"],
       .form-group input[type="tel"],
-      .form-group select { font-size: 0.95rem; padding: 8px 10px;}
+      .form-group select {
+        font-size: 0.95rem;
+        padding: 8px 10px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- 50% Height Image Background Section -->
-  <div class="half-page-background">
-    <!-- This div is purely for the background image. -->
-  </div>
+  <div class="half-page-background"></div>
 
-  <!-- Taskbar - Will float on top of the .half-page-background -->
   <div class="taskbar">
     <div class="taskbar-left">
       <button class="help-button" onclick="toggleHelp()">Help</button>
@@ -293,9 +291,7 @@
       </div>
     </div>
   </div>
-  <!-- End Taskbar -->
 
-  <!-- Transparent Information Box -->
   <div class="info-dialog-box">
     <div class="info-dialog-box-title">INFORMATION BOX</div>
     <div class="personal-details-heading">Personal details</div>
@@ -326,78 +322,42 @@
         </select>
         <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #555;">Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
       </div>
-
-      <!-- Example: Submit button, uncomment if needed 
-      <div class="form-group" style="text-align: center; margin-top: 30px;">
-        <button type="submit" style="padding: 10px 25px; background-color: var(--input-focus-border-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit Details</button>
-      </div>
-      -->
     </form>
   </div>
-  <!-- End Information Box -->
 
   <div class="content-below-dialog">
     <a href="home.html" class="back-link">Go Back to Home</a>
   </div>
-  <!-- End of content -->
 
   <script>
     function toggleHelp() {
       const helpBox = document.getElementById("helpContent");
-      if (helpBox) {
-        helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
-      }
+      helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
     }
 
     function toggleDropdown() {
       const dropdown = document.getElementById("profileDropdown");
-      if (dropdown) {
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-      }
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
     }
 
     function logout() {
-      window.location.href = "index.html"; // Ensure this is your actual login page
+      // Perform logout logic here (e.g., clear session)
+      alert("You have been logged out.");
+      window.location.href = "login.html";
     }
 
-    // Close dropdowns if clicked outside
+    // Close dropdown/help if clicking outside
     document.addEventListener("click", function(event) {
-      const helpContent = document.getElementById("helpContent");
-      const helpButton = document.querySelector(".help-button");
-      const profileDropdownContent = document.getElementById("profileDropdown");
-      const profileIcon = document.querySelector(".profile-icon"); // Target icon for dropdown
-
-      // Close help content
-      if (helpButton && helpContent && helpContent.style.display === "block" &&
-          !helpButton.contains(event.target) &&
-          !helpContent.contains(event.target)) {
-        helpContent.style.display = "none";
+      const help = document.getElementById("helpContent");
+      const dropdown = document.getElementById("profileDropdown");
+      if (!event.target.closest(".help-button") && !event.target.closest("#helpContent")) {
+        help.style.display = "none";
       }
-
-      // Close profile dropdown
-      // Check if click is outside the profile icon AND outside the dropdown content itself
-      if (profileIcon && profileDropdownContent && profileDropdownContent.style.display === "block" &&
-          !profileIcon.contains(event.target) && 
-          !profileDropdownContent.contains(event.target)) {
-        profileDropdownContent.style.display = "none";
+      if (!event.target.closest(".profile-dropdown")) {
+        dropdown.style.display = "none";
       }
     });
-
-    // Form validation feedback
-    const form = document.getElementById('bookingForm');
-    if (form) {
-      form.addEventListener('submit', function(event) {
-        if (!form.checkValidity()) {
-          event.preventDefault(); // Prevent submission if invalid
-          alert("Please fill out all required fields correctly, including a valid phone number if entered.");
-        } else {
-          // Optional: Handle form submission here (e.g., send data with Fetch API)
-          // event.preventDefault(); // Keep this if you're handling submission with JS and not a standard form post
-          // console.log("Form submitted (simulated)");
-        }
-      });
-    }
   </script>
-
 </body>
 </html>
+
