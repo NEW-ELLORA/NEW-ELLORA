@@ -110,6 +110,24 @@
       color: var(--text-color);
     }
 
+    /* Background Container */
+    .background-container {
+      position: relative;
+      top: 0; /* Align with the top of the viewport */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 500px; /* Increased height to account for the taskbar */
+      background: url('booking_text_image_in_the_style.jpeg') no-repeat center;
+      background-size: cover;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      display: flex; /* Enable Flexbox */
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+    }
+
     .dropdown-content {
       display: none;
       position: absolute;
