@@ -23,14 +23,12 @@
     html, body {
       height: 100%;
       width: 100%;
-      background-color: var(--booking-page-bg); /* This is the main orange background */
+      background-color: var(--booking-page-bg);
       display: flex;
       flex-direction: column;
-      /* justify-content: center; No longer globally centering all content vertically */
-      align-items: center; /* Center block-level children horizontally */
-      /* text-align: center; Remove global text-align, apply where needed */
+      align-items: center;
       color: var(--booking-text-color);
-      padding-top: 50px; /* Account for fixed taskbar height */
+      /* padding-top: 50px; REMOVED THIS LINE */
     }
 
     /* --- Taskbar Styles --- */
@@ -43,10 +41,10 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      position: fixed;
-      top: 0;
+      position: fixed; /* This makes it float on top */
+      top: 0;         /* At the very top */
       left: 0;
-      z-index: 100;
+      z-index: 100;   /* Ensures it's above other content */
     }
 
     .taskbar-left {
@@ -75,7 +73,7 @@
       width: 300px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
+      z-index: 200; /* Should be higher than taskbar if it's a dropdown from it, but okay for now */
     }
 
     .home-icon-link {
@@ -110,7 +108,7 @@
       min-width: 100px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
+      z-index: 200; /* Higher than taskbar */
     }
 
     .dropdown-content button {
@@ -131,27 +129,23 @@
     /* --- New 50% Height Background Section --- */
     .half-page-background {
       width: 100%;
-      height: 50vh; /* 50% of the viewport height */
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center; /* Your desired background image */
+      height: 50vh;
+      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center;
       background-size: cover;
-      /* You can add other background properties here if needed, like background-color as a fallback */
-      /* No margin needed as body padding-top handles offset from taskbar */
+      /* This section will now start from the very top of the viewport */
     }
     /* --- End New Background Section --- */
 
 
     /* Styles for the content below the new background (e.g., the back link) */
     .content-below-background {
-        width: 100%; /* Take full width to allow text-align:center for the link */
-        padding: 30px 0; /* Add some spacing above and below the link */
-        text-align: center; /* Center the back link */
-        /* This container will sit on the main orange page background */
+        width: 100%;
+        padding: 30px 0;
+        text-align: center;
+        /* background-color: var(--booking-page-bg); Ensure this part clearly has the orange background if needed */
     }
 
-    /* .booking-heading CSS rule is removed as the H1 is gone */
-
     .back-link {
-      /* margin-top: 30px; Is now handled by padding in .content-below-background */
       padding: 10px 20px;
       background-color: rgba(0, 0, 0, 0.1);
       color: var(--booking-text-color);
@@ -159,7 +153,7 @@
       border-radius: 5px;
       font-weight: bold;
       transition: background-color 0.3s ease;
-      display: inline-block; /* Important for padding and centering if text-align is on parent */
+      display: inline-block;
     }
 
     .back-link:hover {
@@ -167,7 +161,6 @@
     }
 
     @media (max-width: 768px) {
-      /* .booking-heading media query is removed */
       .home-icon, .profile-icon {
         font-size: 22px;
       }
@@ -178,18 +171,21 @@
       .taskbar-left {
         gap: 10px;
       }
-      html, body { /* Ensure body padding matches taskbar height */
-        padding-top: 50px;
-      }
+      /* html, body padding-top is removed for all screen sizes now */
       .half-page-background {
-          height: 50vh; /* Maintain 50vh on smaller screens too */
+          height: 50vh;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Taskbar -->
+  <!-- New 50% Height Background Section - MOVED TO BE THE FIRST THING IN BODY -->
+  <div class="half-page-background">
+    <!-- This div is purely for the background. -->
+  </div>
+
+  <!-- Taskbar - Will float on top of the .half-page-background -->
   <div class="taskbar">
     <div class="taskbar-left">
       <button class="help-button" onclick="toggleHelp()">Help</button>
@@ -213,15 +209,8 @@
   </div>
   <!-- End Taskbar -->
 
-  <!-- New 50% Height Background Section -->
-  <div class="half-page-background">
-    <!-- This div is purely for the background. No text content here unless you decide to add it later. -->
-  </div>
-  <!-- End New Background Section -->
-
   <!-- Content below the new background -->
   <div class="content-below-background">
-    <!-- The h1 class="booking-heading" has been REMOVED -->
     <a href="home.html" class="back-link">Go Back to Home</a>
   </div>
   <!-- End of content -->
