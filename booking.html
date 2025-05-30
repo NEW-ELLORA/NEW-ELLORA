@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
   <style>
     :root {
-      --main-bg-start: #3E5151;
-      --main-bg-end: #DECBA4;
+      --main-bg-start: #d3cce3;
+      --main-bg-end: #e9e4f0;
       --booking-text-color: #333333;
       --text-color: white;
       --background-color: #ffffffdd;
@@ -91,7 +91,7 @@
     .personal-details-heading {
       font-size: 1.3rem;
       font-weight: 600;
-      margin-top: 20px; /* Increased margin-top for headings after the first one */
+      margin-top: 20px;
       margin-bottom: 20px;
       color: var(--info-box-text-color);
       text-align: center;
@@ -99,9 +99,8 @@
       padding-bottom: 10px;
     }
     .info-dialog-box form > .personal-details-heading:first-of-type {
-        margin-top: 10px; /* Standard margin for the first heading */
+        margin-top: 10px;
     }
-
 
     .form-group {
       margin-bottom: 20px;
@@ -117,7 +116,9 @@
 
     .form-group input[type="text"],
     .form-group input[type="tel"],
-    .form-group select {
+    .form-group input[type="number"], /* Added type="number" */
+    .form-group select,
+    .form-group textarea { /* Added textarea */
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--input-border-color);
@@ -126,23 +127,29 @@
       font-size: 1rem;
       color: var(--info-box-text-color);
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Segoe UI', sans-serif; /* Ensure textarea inherits font */
     }
 
     .form-group select[multiple] { height: auto; min-height: 100px; }
+    .form-group textarea { resize: vertical; /* Allow vertical resize, disable horizontal */ }
 
     .form-group input[type="text"]:focus,
     .form-group input[type="tel"]:focus,
-    .form-group select:focus {
+    .form-group input[type="number"]:focus, /* Added type="number" */
+    .form-group select:focus,
+    .form-group textarea:focus { /* Added textarea */
       outline: none;
       border-color: var(--input-focus-border-color);
       box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
     }
     
-    .form-group input::placeholder { color: #7f8c8d; }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { /* Added textarea placeholder */
+        color: #7f8c8d; 
+    }
     
-    /* Style for the location image preview container (optional, for spacing/layout) */
     .location-image-preview-container {
-        margin-top: 15px; /* Add some space above the image */
+        margin-top: 15px;
     }
 
     .content-below-dialog { width: 100%; padding-bottom: 30px; text-align: center; }
@@ -160,7 +167,9 @@
       .form-group label { font-size: 0.9rem;}
       .form-group input[type="text"],
       .form-group input[type="tel"],
-      .form-group select { font-size: 0.95rem; padding: 8px 10px;}
+      .form-group input[type="number"],
+      .form-group select,
+      .form-group textarea { font-size: 0.95rem; padding: 8px 10px;}
     }
   </style>
 </head>
@@ -224,7 +233,7 @@
       <div class="personal-details-heading">Occasion Details</div>
 
       <div class="form-group">
-        <label for="occasionLocation">LOCATION:</label>
+        <label for="occasionLocation">VENUE REGION / DISTRICT:</label>
         <select id="occasionLocation" name="occasionLocation" required>
           <option value="kasargod" selected>Kasargod</option>
           <option value="kannur">Kannur</option>
@@ -234,16 +243,36 @@
         </select>
       </div>
       
-      <!-- Location Image Preview -->
       <div class="form-group location-image-preview-container">
         <img id="locationImagePreview" src="" alt="Location image" 
              style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; 
-                    margin-top: 0; /* Removed top margin as container has it */
                     transition: opacity 0.3s ease-in-out; opacity: 0; display: none;">
       </div>
-      <!-- End Occasion Details Section -->
 
-      <!-- Example: Submit button (optional) -->
+      <!-- NEW Occasion Details Fields -->
+      <div class="form-group">
+        <label for="occasionName">OCCASION NAME:</label>
+        <input type="text" id="occasionName" name="occasionName" placeholder="e.g., Birthday Party, Wedding Reception" required>
+      </div>
+
+      <div class="form-group">
+        <label for="occasionAddress">FULL ADDRESS / VENUE DETAILS:</label>
+        <textarea id="occasionAddress" name="occasionAddress" rows="3" placeholder="Enter the complete venue address and any specific directions" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="numberOfMembers">NUMBER OF GUESTS (APPROX.):</label>
+        <input type="number" id="numberOfMembers" name="numberOfMembers" min="1" inputmode="numeric" placeholder="e.g., 50" required>
+      </div>
+      <!-- End NEW Occasion Details Fields -->
+      
+      <!-- End Occasion Details Section (Conceptually, the heading applies to all these) -->
+
+      <!-- Example: Submit button, uncomment if needed 
+      <div class="form-group" style="text-align: center; margin-top: 30px;">
+        <button type="submit" style="padding: 10px 25px; background-color: var(--input-focus-border-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit All Details</button>
+      </div>
+      -->
     </form>
   </div>
 
@@ -287,68 +316,57 @@
       }
     });
 
-    // --- Location Image Logic ---
     const locationImages = {
-      'kasargod': 'download.jpg', // Replace with your image path
-      'kannur': 'download.png',   // Replace with your image path
-      'kozhikode': 'https://via.placeholder.com/600x250.png?text=Historic+Kozhikode',// Replace with your image path
-      'mangalore': 'https://via.placeholder.com/600x250.png?text=Vibrant+Mangalore', // Replace with your image path
-      'other': '' // No image for "Other"
+      'kasargod': 'https://via.placeholder.com/600x250.png?text=Scenic+Kasargod',
+      'kannur': 'https://via.placeholder.com/600x250.png?text=Beautiful+Kannur',
+      'kozhikode': 'https://via.placeholder.com/600x250.png?text=Historic+Kozhikode',
+      'mangalore': 'https://via.placeholder.com/600x250.png?text=Vibrant+Mangalore',
+      'other': '' 
     };
 
     function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) {
       if (!imgElement || !selectElement) return;
-
-      const newImageUrl = locationImages[locationValue] || locationImages['other']; // Default to 'other' if value not in map
+      const newImageUrl = locationImages[locationValue] || locationImages['other'];
       const selectedOption = selectElement.options[selectElement.selectedIndex];
       const locationDisplayName = selectedOption ? selectedOption.text : locationValue;
       
       imgElement.alt = newImageUrl ? `Image for ${locationDisplayName}` : "No image available";
 
       if (isInitialLoad) {
-        imgElement.src = newImageUrl;
         if (newImageUrl) {
-          imgElement.style.display = 'block';
-          imgElement.style.opacity = 1;
+            imgElement.src = newImageUrl;
+            imgElement.style.display = 'block';
+            imgElement.style.opacity = 1;
         } else {
-          imgElement.style.display = 'none';
+            imgElement.style.display = 'none';
         }
       } else {
-        imgElement.style.opacity = 0; // Start fade out
+        imgElement.style.opacity = 0;
         setTimeout(() => {
-          imgElement.src = newImageUrl;
+          imgElement.src = newImageUrl; // Set src first
           if (newImageUrl) {
             imgElement.style.display = 'block';
-            // Ensure fade-in happens after the image is (re)loaded
-            // This handles cached images as well as new ones.
             const fadeIn = () => {
               imgElement.style.opacity = 1;
-              imgElement.removeEventListener('load', fadeIn); // Clean up
-              imgElement.removeEventListener('error', hideOnError); // Clean up
+              imgElement.removeEventListener('load', fadeIn);
+              imgElement.removeEventListener('error', hideOnError);
             };
             const hideOnError = () => {
-                imgElement.style.display = 'none'; // Hide if image fails to load
+                imgElement.style.display = 'none';
                 imgElement.removeEventListener('load', fadeIn);
                 imgElement.removeEventListener('error', hideOnError);
             };
-
             imgElement.addEventListener('load', fadeIn);
             imgElement.addEventListener('error', hideOnError);
-            
-            // If the image is already loaded (e.g. from cache, or src is set to same as before),
-            // 'load' might not fire. Check .complete property.
-            // Also ensure src is not empty string, as .complete might be true for empty src.
-            if (imgElement.complete && imgElement.src && imgElement.src !== window.location.href ) { // window.location.href check for empty src becoming base URL
+            if (imgElement.complete && imgElement.src && imgElement.src !== window.location.href ) {
                fadeIn();
-            } else if (!imgElement.src || imgElement.src === window.location.href) { // if src became empty (no new image)
-               hideOnError(); // effectively hide it
+            } else if (!imgElement.src || imgElement.src === window.location.href) {
+               hideOnError();
             }
-
-          } else { // No new image URL
+          } else {
             imgElement.style.display = 'none';
-            // imgElement.style.opacity = 1; // Opacity doesn't matter if display is none, but reset if it could become visible
           }
-        }, 300); // Corresponds to CSS opacity transition duration
+        }, 300);
       }
     }
 
@@ -356,31 +374,36 @@
       const occasionLocationSelect = document.getElementById('occasionLocation');
       const locationImagePreview = document.getElementById('locationImagePreview');
 
-      // Initialize location image on page load
       if (occasionLocationSelect && locationImagePreview) {
         updateLocationImage(occasionLocationSelect.value, locationImagePreview, occasionLocationSelect, true);
-
         occasionLocationSelect.addEventListener('change', function() {
           updateLocationImage(this.value, locationImagePreview, this);
           if (this.value === 'other') {
             alert("Sorry, we are not available in this location yet.");
-            // Optionally reset the dropdown if 'Other' isn't a final valid state:
+            // Consider resetting:
             // this.value = 'kasargod'; 
             // updateLocationImage(this.value, locationImagePreview, this);
           }
         });
       }
 
-      // Form validation logic
       const form = document.getElementById('bookingForm');
       if (form) {
         form.addEventListener('submit', function(event) {
           if (!form.checkValidity()) {
             event.preventDefault();
+            event.stopPropagation(); // Stop the event from bubbling further
             alert("Please fill out all required fields correctly, including a valid phone number if entered.");
+            // Focus on the first invalid field for better UX
+            const firstInvalidField = form.querySelector(':invalid');
+            if (firstInvalidField) {
+              firstInvalidField.focus();
+            }
           } else {
-            // event.preventDefault(); // Uncomment if handling submission via JS/AJAX
+            // If you were handling submission via JavaScript:
+            // event.preventDefault();
             // console.log("Form submitted (simulated)");
+            // alert("Booking details submitted (simulation)!"); 
           }
         });
       }
