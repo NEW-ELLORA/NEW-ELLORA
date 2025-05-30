@@ -8,9 +8,12 @@
   <style>
     :root {
       /* Using the primary color from your main page for the background */
-      /* Or you can use the gradient from the main page if you prefer */
       --booking-page-bg: #fba834; /* This is your --primary-color */
       --booking-text-color: #333333; /* Dark text for readability */
+
+      /* Variables needed for the taskbar (copied from your main page's CSS) */
+      --text-color: white;
+      --background-color: #ffffffdd; /* For dropdown background */
     }
 
     * {
@@ -28,20 +31,87 @@
          background: linear-gradient(135deg, #fba834, #fcd34d);
       */
       display: flex;
-      flex-direction: column; /* To allow for a back button below */
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       color: var(--booking-text-color);
+      padding-top: 50px; /* Account for fixed taskbar height */
     }
+
+    /* --- Taskbar Styles (Copied and adapted from your main page) --- */
+    .taskbar {
+      width: 100%;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.7); /* Same as your main page taskbar */
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .home-icon-link {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .home-icon {
+      font-size: 26px; /* Adjust size as needed */
+      cursor: pointer;
+      /* You can replace the emoji with an SVG or icon font if you prefer */
+    }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 35px; /* Adjust to position below the icon */
+      background-color: var(--background-color); /* Uses variable from root */
+      min-width: 100px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 200;
+    }
+
+    .dropdown-content button {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      color: #333; /* Text color for dropdown items */
+    }
+
+    .dropdown-content button:hover {
+      background-color: #f1f1f1;
+    }
+    /* --- End Taskbar Styles --- */
+
 
     .booking-heading {
       font-size: 3.5rem;
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: 20px;
-      /* Optional text shadow if you want a similar feel to the welcome text */
-      /* text-shadow: 1px 1px 5px rgba(0,0,0,0.3); */
     }
 
     .back-link {
@@ -63,10 +133,36 @@
       .booking-heading {
         font-size: 2.5rem;
       }
+      .home-icon {
+        font-size: 22px;
+      }
+      .profile-icon {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <div>
+      <a href="home.html" class="home-icon-link" aria-label="Go to Home">
+        <span class="home-icon">🏠</span>
+        <!-- Alternative using an SVG (example - you'd need the actual SVG code)
+        <svg class="home-icon" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        -->
+      </a>
+    </div>
+
+    <div class="profile-dropdown">
+      <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
+      <div class="dropdown-content" id="profileDropdown">
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+  <!-- End Taskbar -->
 
   <h1 class="booking-heading">Booking</h1>
 
@@ -74,7 +170,31 @@
   <a href="home.html" class="back-link">Go Back to Home</a>
   <!-- Make sure "home.html" is the correct name of your main page file -->
 
-  <!-- You can add more booking-specific content here later -->
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("profileDropdown");
+      if (dropdown) {
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      }
+    }
+
+    function logout() {
+      // Assuming your login page is index.html
+      window.location.href = "index.html";
+    }
+
+    // Click-outside listener for profile dropdown
+    document.addEventListener("click", function(event) {
+      const profileDropdownContent = document.getElementById("profileDropdown");
+      const profileDropdownContainer = document.querySelector(".profile-dropdown");
+
+      if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
+          !profileDropdownContainer.contains(event.target)) {
+        profileDropdownContent.style.display = "none";
+      }
+    });
+  </script>
 
 </body>
 </html>
