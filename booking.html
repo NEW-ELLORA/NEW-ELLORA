@@ -3,332 +3,181 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Booking - New Ellora</title>
-  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
+  <title>Booking</title>
   <style>
-    :root {
-      --main-bg-start: #d3cce3;
-      --main-bg-end: #e9e4f0;
-      --booking-text-color: #333333;
-      --text-color: white;
-      --background-color: #ffffffdd;
-      --input-border-color: #ccc;
-      --input-focus-border-color: #796fea;
-      --info-box-text-color: #2c3e50;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
     }
 
-    html, body {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(135deg, var(--main-bg-start), var(--main-bg-end));
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6dff2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: var(--booking-text-color);
+      min-height: 100vh;
     }
 
-    .taskbar {
+    .image-container {
       width: 100%;
-      height: 50px;
-      background: rgba(0, 0, 0, 0.7);
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
+      height: 50vh;
+      overflow: hidden;
     }
 
-    .taskbar-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+    .booking-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .info-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 600px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .home-btn {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .home-btn a {
+      padding: 10px 20px;
+      background-color: #6441a5;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .home-btn a:hover {
+      background-color: #5a3794;
+    }
+
+    small {
+      display: block;
+      margin-top: 6px;
+      color: #666;
+    }
+
+    /* Optional Help/Profile dropdown styles */
+    .help-button, .profile-button {
+      position: absolute;
+      top: 15px;
+      padding: 10px;
+      cursor: pointer;
     }
 
     .help-button {
-      background: transparent;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
+      left: 15px;
     }
 
-    .help-content {
-      display: none;
+    .profile-button {
+      right: 15px;
+    }
+
+    #helpContent, #profileDropdown {
       position: absolute;
-      top: 55px;
-      left: 20px;
-      background-color: var(--background-color);
-      color: black;
-      padding: 15px;
-      width: 300px;
+      top: 50px;
+      right: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
-    }
-
-    .home-icon-link {
-      color: var(--text-color);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
-    .home-icon {
-      font-size: 26px;
-      cursor: pointer;
-    }
-
-    .profile-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .profile-icon {
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--text-color);
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 35px;
-      background-color: var(--background-color);
-      min-width: 100px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200;
-    }
-
-    .dropdown-content button {
-      width: 100%;
       padding: 10px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      color: #333;
-    }
-
-    .dropdown-content button:hover {
-      background-color: #f1f1f1;
-    }
-
-    .half-page-background {
-      width: 100%;
-      height: 50vh;
-      background: url('booking_text_image_in_the_style.jpeg') no-repeat center center;
-      background-size: cover;
-    }
-
-    .info-dialog-box {
-      width: 80%;
-      max-width: 700px;
-      background-color: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(8px);
-      border-radius: 15px;
-      padding: 25px;
-      margin-top: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      text-align: center;
-      color: var(--info-box-text-color);
-    }
-
-    .info-dialog-box-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #1c2833;
-    }
-
-    .personal-details-heading {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      color: var(--info-box-text-color);
-      text-align: center;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      padding-bottom: 10px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--info-box-text-color);
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="tel"],
-    .form-group select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--input-border-color);
-      border-radius: 6px;
-      background-color: rgba(255, 255, 255, 0.7);
-      font-size: 1rem;
-      color: var(--info-box-text-color);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .form-group input[type="text"]:focus,
-    .form-group input[type="tel"]:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--input-focus-border-color);
-      box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
-    }
-
-    .form-group select[multiple] {
-      height: auto;
-      min-height: 100px;
-    }
-
-    .form-group input::placeholder {
-      color: #7f8c8d;
-    }
-
-    .content-below-dialog {
-      width: 100%;
-      padding-bottom: 30px;
-      text-align: center;
-    }
-
-    .back-link {
-      padding: 10px 20px;
-      background-color: rgba(0, 0, 0, 0.05);
-      color: var(--booking-text-color);
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-      display: inline-block;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .back-link:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    @media (max-width: 768px) {
-      .home-icon, .profile-icon {
-        font-size: 22px;
-      }
-      .help-button {
-        padding: 5px 10px;
-        font-size: 0.9rem;
-      }
-      .taskbar-left {
-        gap: 10px;
-      }
-      .half-page-background {
-        height: 50vh;
-      }
-      .info-dialog-box {
-        width: 90%;
-        padding: 20px;
-        margin-top: 20px;
-      }
-      .info-dialog-box-title {
-        font-size: 1.5rem;
-      }
-      .personal-details-heading {
-        font-size: 1.1rem;
-      }
-      .form-group label {
-        font-size: 0.9rem;
-      }
-      .form-group input[type="text"],
-      .form-group input[type="tel"],
-      .form-group select {
-        font-size: 0.95rem;
-        padding: 8px 10px;
-      }
+      display: none;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
 
-  <div class="half-page-background"></div>
-
-  <div class="taskbar">
-    <div class="taskbar-left">
-      <button class="help-button" onclick="toggleHelp()">Help</button>
-      <div class="help-content" id="helpContent">
-        Helpline Number: <b>00000000</b><br>
-        Gmail: <b>gdjhdg@gmail.com</b><br><br>
-        This is the booking page. Use the Home icon to return to the main page.<br>
-        Use the Logout option in the profile menu to return to login.
-      </div>
-      <a href="home.html" class="home-icon-link" aria-label="Go to Home">
-        <span class="home-icon">🏠</span>
-      </a>
-    </div>
-
-    <div class="profile-dropdown">
-      <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
-      <div class="dropdown-content" id="profileDropdown">
-        <button onclick="logout()">Logout</button>
-      </div>
-    </div>
+  <!-- Top image section -->
+  <div class="image-container">
+    <img src="booking_text_image_in_the_style.jpeg" alt="Booking Banner" class="booking-image">
   </div>
 
-  <div class="info-dialog-box">
-    <div class="info-dialog-box-title">INFORMATION BOX</div>
-    <div class="personal-details-heading">Personal details</div>
+  <!-- Help/Profile buttons (Optional UI hooks) -->
+  <div class="help-button" onclick="toggleHelp()">❓ Help</div>
+  <div class="profile-button" onclick="toggleDropdown()">👤</div>
 
-    <form id="bookingForm">
-      <div class="form-group">
-        <label for="userName">NAME:</label>
-        <input type="text" id="userName" name="userName" placeholder="Enter your full name" required>
-      </div>
+  <!-- Help Dropdown -->
+  <div id="helpContent">
+    <p>This is the help section. Click outside to close.</p>
+  </div>
 
-      <div class="form-group">
-        <label for="phoneNumber">PHONE NUMBER:</label>
-        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+91 XXXXX XXXXX" pattern="^\+91[1-9]\d{9}$" title="Please enter a valid Indian phone number (+91 followed by 10 digits)." required>
-      </div>
+  <!-- Profile Dropdown -->
+  <div id="profileDropdown" class="profile-dropdown">
+    <p onclick="logout()">Logout</p>
+  </div>
 
-      <div class="form-group">
-        <label for="preferredLanguages">PREFERRED LANGUAGE(S):</label>
-        <select id="preferredLanguages" name="preferredLanguages" multiple required>
-          <option value="english">English</option>
-          <option value="hindi">Hindi</option>
-          <option value="marathi">Marathi</option>
-          <option value="tamil">Tamil</option>
-          <option value="telugu">Telugu</option>
-          <option value="kannada">Kannada</option>
-          <option value="malayalam">Malayalam</option>
-          <option value="bengali">Bengali</option>
-          <option value="gujarati">Gujarati</option>
-        </select>
-        <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #555;">Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
+  <!-- Main form -->
+  <div class="info-box">
+    <h1>INFORMATION BOX</h1>
+    <h2>Personal details</h2>
+
+    <form>
+      <label for="name">NAME:</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+
+      <label for="phone">PHONE NUMBER:</label>
+      <input type="text" id="phone" placeholder="+91 XXXXXX XXXXX" required>
+
+      <label for="languages">PREFERRED LANGUAGE(S):</label>
+      <select id="languages" multiple size="5">
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Marathi</option>
+        <option>Tamil</option>
+        <option>Telugu</option>
+        <option>Kannada</option>
+        <option>Gujarati</option>
+        <option>Bengali</option>
+      </select>
+      <small>Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
+
+      <div class="home-btn">
+        <a href="index.html">Go Back to Home</a>
       </div>
     </form>
   </div>
 
-  <div class="content-below-dialog">
-    <a href="home.html" class="back-link">Go Back to Home</a>
-  </div>
-
+  <!-- JavaScript -->
   <script>
     function toggleHelp() {
       const helpBox = document.getElementById("helpContent");
@@ -353,11 +202,12 @@
       if (!event.target.closest(".help-button") && !event.target.closest("#helpContent")) {
         help.style.display = "none";
       }
-      if (!event.target.closest(".profile-dropdown")) {
+      if (!event.target.closest(".profile-button") && !event.target.closest("#profileDropdown")) {
         dropdown.style.display = "none";
       }
     });
   </script>
 </body>
 </html>
+
 
