@@ -38,11 +38,32 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .taskbar > div:first-child { /* Container for Help button and its dropdown */
-        position: relative; /* For help-content positioning */
-        display: flex; /* To align help button if other items were next to it */
+    .taskbar-left { /* New container for left-aligned items */
+        display: flex;
         align-items: center;
     }
+
+    .taskbar-left > div { /* Container for Help button and its dropdown */
+        position: relative; /* For help-content positioning */
+        display: flex;
+        align-items: center;
+        margin-right: 15px; /* Space between Help and Home icon */
+    }
+
+    .taskbar .home-icon-link {
+        color: white;
+        text-decoration: none;
+        font-size: 24px; /* Adjust size as needed */
+        padding: 0 10px; /* Give some clickable area */
+        display: flex;
+        align-items: center;
+        height: 100%; /* Fill vertical space for easier clicking */
+    }
+    .taskbar .home-icon-link:hover {
+        background-color: #495057; /* Darker hover */
+        border-radius: 4px;
+    }
+
 
     .taskbar .help-button {
       background-color: #adb5bd;
@@ -78,6 +99,7 @@
     .taskbar .help-content b {
         color: #007bff;
     }
+
 
     .profile-dropdown {
       position: relative; /* For dropdown-content positioning */
@@ -169,7 +191,7 @@
       text-align: center;
     }
 
-    .home-btn a {
+    .home-btn a { /* This is the link style for the button at the bottom */
       padding: 10px 20px;
       background-color: #6441a5;
       color: white;
@@ -194,14 +216,17 @@
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <div> <!-- This div wraps the help button and its content for relative positioning -->
-      <button class="help-button" onclick="toggleHelp()">Help</button>
-      <div class="help-content" id="helpContent">
-        Helpline Number: <b>00000000</b><br>
-        Gmail: <b>gdjhdg@gmail.com</b><br><br>
-        This page welcomes the user after login.<br>
-        Use the Logout option in the profile menu to return.
+    <div class="taskbar-left"> <!-- Wrapper for left-aligned items -->
+      <div> <!-- This div wraps the help button and its content for relative positioning -->
+        <button class="help-button" onclick="toggleHelp()">Help</button>
+        <div class="help-content" id="helpContent">
+          Helpline Number: <b>00000000</b><br>
+          Gmail: <b>gdjhdg@gmail.com</b><br><br>
+          This page welcomes the user after login.<br>
+          Use the Logout option in the profile menu to return.
+        </div>
       </div>
+      <a href="home.html" class="home-icon-link" title="Go to Homepage">🏠</a> <!-- Home Icon Link -->
     </div>
 
     <div class="profile-dropdown"> <!-- This div is for relative positioning of its dropdown -->
@@ -237,7 +262,7 @@
       </select>
       <small>Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
 
-      <div class="home-btn">
+      <div class="home-btn"> <!-- This is the button at the bottom of the form -->
         <a href="index.html">Go Back to Home</a>
       </div>
     </form>
@@ -270,7 +295,7 @@
 
     function logout() {
       alert("You have been logged out."); // Added an alert for user feedback
-      window.location.href = "index.html"; // As per your provided snippet
+      window.location.href = "index.html"; // Directs to index.html on logout
     }
 
     document.addEventListener("click", function(event) {
@@ -311,4 +336,3 @@
   </script>
 </body>
 </html>
-
