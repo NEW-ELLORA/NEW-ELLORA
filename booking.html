@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5; /* Light grey/lavenderish background */
+      background-color:linear-gradient(135deg, #3e5151, #decba4)
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -150,14 +150,16 @@
 
     /* Main Info Box and Form Styles (largely unchanged from previous) */
     .info-box {
-      background-color: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 600px;
-      margin-bottom: 50px; /* No margin-top needed due to body padding */
-    }
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 50px;
+  /* Optional: Add a subtle border if the transparency makes edges too soft */
+  /* border: 1px solid rgba(204, 204, 204, 0.5); */
+}
 
     h1 {
       text-align: center;
