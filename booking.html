@@ -159,6 +159,58 @@
       margin-bottom: 20px; /* Space below the title */
       color: #1c2833; /* Even darker for the title, or inherit from .info-dialog-box */
     }
+
+    .personal-details-heading {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      color: var(--info-box-text-color); /* Use info box text color */
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--info-box-text-color); /* Use info box text color */
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--input-border-color);
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      color: var(--info-box-text-color); /* Use info box text color for input text */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="tel"]:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--input-focus-border-color);
+      box-shadow: 0 0 0 2px rgba(121, 113, 234, 0.2);
+    }
+    
+    .form-group select[multiple] {
+        height: auto;
+        min-height: 100px;
+    }
+
+    .form-group input::placeholder {
+        color: #7f8c8d; /* Placeholder text color */
+    }
     /* --- End Information Box --- */
 
 
@@ -206,8 +258,12 @@
         margin-top: 20px;
       }
       .info-dialog-box-title {
-        font-size: 1.5rem;
-      }
+        font-size: 1.5rem; }
+      .personal-details-heading { font-size: 1.1rem; }
+      .form-group label { font-size: 0.9rem;}
+      .form-group input[type="text"],
+      .form-group input[type="tel"],
+      .form-group select { font-size: 0.95rem; padding: 8px 10px;}
     }
   </style>
 </head>
@@ -245,13 +301,44 @@
   <!-- Transparent Information Box -->
   <div class="info-dialog-box">
     <div class="info-dialog-box-title">INFORMATION BOX</div>
-    <!-- You can add more content to the information box here if needed -->
-    <p>This is some sample information inside the transparent dialog box. You can replace this with any content you need.</p>
+    <div class="personal-details-heading">Personal details</div>
+
+    <form id="bookingForm">
+      <div class="form-group">
+        <label for="userName">NAME:</label>
+        <input type="text" id="userName" name="userName" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">PHONE NUMBER:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+91 XXXXX XXXXX" pattern="^\+91[1-9]\d{9}$" title="Please enter a valid Indian phone number (+91 followed by 10 digits)." required>
+      </div>
+
+      <div class="form-group">
+        <label for="preferredLanguages">PREFERRED LANGUAGE(S):</label>
+        <select id="preferredLanguages" name="preferredLanguages" multiple required>
+          <option value="english">English</option>
+          <option value="hindi">Hindi</option>
+          <option value="marathi">Marathi</option>
+          <option value="tamil">Tamil</option>
+          <option value="telugu">Telugu</option>
+          <option value="kannada">Kannada</option>
+          <option value="malayalam">Malayalam</option>
+          <option value="bengali">Bengali</option>
+          <option value="gujarati">Gujarati</option>
+        </select>
+        <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #555;">Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
+      </div>
+
+      <!-- Example: Submit button, uncomment if needed 
+      <div class="form-group" style="text-align: center; margin-top: 30px;">
+        <button type="submit" style="padding: 10px 25px; background-color: var(--input-focus-border-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;">Submit Details</button>
+      </div>
+      -->
+    </form>
   </div>
   <!-- End Information Box -->
 
-
-  <!-- Content below the dialog box -->
   <div class="content-below-dialog">
     <a href="home.html" class="back-link">Go Back to Home</a>
   </div>
@@ -293,6 +380,20 @@
         profileDropdownContent.style.display = "none";
       }
     });
+
+     const form = document.getElementById('bookingForm');
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          alert("Please fill out all required fields correctly, including a valid phone number if entered.");
+        } else {
+          // Optional: Handle form submission here (e.g., send data with Fetch API)
+          // event.preventDefault(); // Keep this if you're handling submission with JS
+          // console.log("Form submitted (simulated)");
+        }
+      });
+    }
   </script>
 
 </body>
