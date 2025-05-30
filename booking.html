@@ -60,8 +60,8 @@
 
     .help-button {
       background: transparent;
-      border: 1px solid var(--text-color);
-      color: var(--text-color);
+      border: 1px solid var(--taskbar-text-color); /* Changed from --text-color to --taskbar-text-color for consistency */
+      color: var(--taskbar-text-color); /* Changed from --text-color to --taskbar-text-color */
       padding: 6px 12px;
       border-radius: 5px;
       cursor: pointer;
@@ -72,17 +72,17 @@
       position: absolute;
       top: 55px;
       left: 20px;
-      background-color: var(--background-color);
-      color: black;
+      background-color: var(--dialog-popup-bg); /* Using a clearer variable */
+      color: black; /* Or var(--info-box-text-color) for consistency */
       padding: 15px;
       width: 300px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200; /* Should be higher than taskbar if it's a dropdown from it, but okay for now */
+      z-index: 200; 
     }
 
     .home-icon-link {
-      color: var(--text-color);
+      color: var(--taskbar-text-color); /* Changed from --text-color */
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -101,45 +101,23 @@
     .profile-icon {
       font-size: 24px;
       cursor: pointer;
-      color: var(--text-color);
+      color: var(--taskbar-text-color); /* Changed from --text-color */
     }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 35px;
-      background-color: var(--background-color);
-      min-width: 100px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 200; /* Higher than taskbar */
-    }
-
-    .dropdown-content button {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      color: #333;
-    }
-
-    .dropdown-content button:hover {
-      background-color: #f1f1f1;
-    }
-    /* --- End Taskbar Styles --- */
-
-    /* --- New 50% Height Background Section --- */
+    
+    /* --- Half Page Background Image --- */
     .half-page-background {
       width: 100%;
-      height: 50vh;
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center;
-      background-size: cover;
-      /* This section will now start from the very top of the viewport */
+      height: 50vh; /* 50% of the viewport height */
+      /* Replace 'images/image_placeholder.png' with your actual image path */
+      background-image: url('images/image_placeholder.png'); 
+      background-size: cover; /* Cover the entire area of the div */
+      background-position: center; /* Center the background image */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      /* This element is at the top of the body.
+         The fixed taskbar overlays its top portion.
+         The info-dialog-box appears below it due to normal flow and its own margin-top. */
     }
-    /* --- End Image Background Section --- */
+    /* --- End Half Page Background Image --- */
 
     /* --- Transparent Information Box --- */
     .info-dialog-box {
@@ -246,7 +224,7 @@
       .home-icon, .profile-icon { font-size: 22px; }
       .help-button { padding: 5px 10px; font-size: 0.9rem; }
       .taskbar-left { gap: 10px; }
-      .half-page-background { height: 50vh; } /* Could also be a fixed pixel height for mobile if 50vh is too much */
+      /* .half-page-background { height: 50vh; } */ /* Already 50vh, mobile can override if needed e.g. 40vh or fixed px */
       .info-dialog-box { width: 90%; padding: 20px 25px; margin-top: 20px; }
       .info-dialog-box-title { font-size: 1.5rem; }
       .personal-details-heading { font-size: 1.1rem; }
@@ -280,7 +258,7 @@
     </div>
     <div class="profile-dropdown">
       <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
-      <div class="dropdown-content" id="profileDropdown">
+      <div class="dropdown-content" id="profileDropdown"> <!-- Assuming dropdown-content class is for styling -->
         <button onclick="logout()">Logout</button>
       </div>
     </div>
@@ -343,7 +321,27 @@
 
     function toggleDropdown() {
       const dropdown = document.getElementById("profileDropdown");
-      if (dropdown) { dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; }
+      // Basic toggle, assuming .dropdown-content might need specific styles for display
+      if (dropdown) { 
+          // If you add CSS for .dropdown-content display:none initially
+          // dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; 
+          // For now, let's assume it might be styled with a class or directly if simple enough
+          if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+          } else {
+            // You'll need to add CSS for how the dropdown appears, e.g.,
+            // #profileDropdown { display: none; position: absolute; right: 0; top: 100%; background: white; box-shadow: ...; }
+            dropdown.style.display = "block"; 
+            // Minimal styling for visibility if no CSS is present for .dropdown-content
+            dropdown.style.position = 'absolute';
+            dropdown.style.right = '0';
+            dropdown.style.top = '100%'; /* Below the gear icon */
+            dropdown.style.backgroundColor = 'var(--dialog-popup-bg)';
+            dropdown.style.border = '1px solid #ccc';
+            dropdown.style.padding = '5px';
+            dropdown.style.zIndex = '200';
+          }
+      }
     }
 
     function logout() {
@@ -354,7 +352,7 @@
       const helpContent = document.getElementById("helpContent");
       const helpButton = document.querySelector(".help-button");
       const profileDropdownContent = document.getElementById("profileDropdown");
-      const profileDropdownContainer = document.querySelector(".profile-dropdown");
+      const profileIcon = document.querySelector(".profile-icon"); // Target the icon itself
 
       if (helpButton && helpContent && helpContent.style.display === "block" &&
           !helpButton.contains(event.target) &&
@@ -362,8 +360,10 @@
         helpContent.style.display = "none";
       }
 
-      if (profileDropdownContainer && profileDropdownContent && profileDropdownContent.style.display === "block" &&
-          !profileDropdownContainer.contains(event.target)) {
+      // Check if click is outside the profile icon AND outside the dropdown content
+      if (profileIcon && profileDropdownContent && profileDropdownContent.style.display === "block" &&
+          !profileIcon.contains(event.target) && 
+          !profileDropdownContent.contains(event.target)) {
         profileDropdownContent.style.display = "none";
       }
     });
