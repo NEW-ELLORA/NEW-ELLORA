@@ -52,25 +52,92 @@
       z-index: 100; /* Ensures taskbar is on top of .half-page-background */
     }
 
-    .taskbar-left { display: flex; align-items: center; gap: 15px; }
-    .help-button { background: transparent; border: 1px solid var(--taskbar-text-color); color: var(--taskbar-text-color); padding: 6px 12px; border-radius: 5px; cursor: pointer; }
-    .help-content { display: none; position: absolute; top: 55px; left: 20px; background-color: var(--dialog-popup-bg); color: black; padding: 15px; width: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 200; } /* z-index higher than taskbar */
-    .home-icon-link { color: var(--taskbar-text-color); text-decoration: none; display: flex; align-items: center; }
-    .home-icon { font-size: 26px; cursor: pointer; }
-    .profile-dropdown { position: relative; display: inline-block; }
-    .profile-icon { font-size: 24px; cursor: pointer; color: var(--taskbar-text-color); }
-    .dropdown-content { display: none; position: absolute; right: 0; top: 35px; background-color: var(--dialog-popup-bg); min-width: 100px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 200; } /* z-index higher than taskbar */
-    .dropdown-content button { width: 100%; padding: 10px; background: transparent; border: none; cursor: pointer; text-align: left; color: #333; }
-    .dropdown-content button:hover { background-color: #f1f1f1; }
+     .taskbar-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .help-button {
+      background: transparent;
+      border: 1px solid var(--text-color);
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .help-content {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 20px;
+      background-color: var(--background-color);
+      color: black;
+      padding: 15px;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 200; /* Should be higher than taskbar if it's a dropdown from it, but okay for now */
+    }
+
+    .home-icon-link {
+      color: var(--text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .home-icon {
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 35px;
+      background-color: var(--background-color);
+      min-width: 100px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 200; /* Higher than taskbar */
+    }
+
+    .dropdown-content button {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      color: #333;
+    }
+
+    .dropdown-content button:hover {
+      background-color: #f1f1f1;
+    }
     /* --- End Taskbar Styles --- */
 
-    /* --- 50% Height Image Background Section --- */
+    /* --- New 50% Height Background Section --- */
     .half-page-background {
       width: 100%;
-      height: 50vh; /* 50% of the viewport height */
+      height: 50vh;
       background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center;
       background-size: cover;
-      /* This div is the first visual element, taskbar overlays it */
+      /* This section will now start from the very top of the viewport */
     }
     /* --- End Image Background Section --- */
 
