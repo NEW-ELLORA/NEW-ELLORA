@@ -55,6 +55,12 @@
       z-index: 100;
     }
 
+    .taskbar-left {
+  display: flex; /* Align items in a row */
+  align-items: center; /* Vertically center them */
+  gap: 15px; /* Add some space between the help button and home icon */
+   }
+   
     .help-button {
       background: transparent;
       border: 1px solid var(--text-color);
@@ -92,6 +98,7 @@
       /* You can replace the emoji with an SVG or icon font if you prefer */
     }
 
+    /* Add this to your <style> block in booking.html */
     .profile-dropdown {
       position: relative;
       display: inline-block;
@@ -170,23 +177,21 @@
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <div>
+    <!-- Left side of the taskbar: Help button and Home Icon -->
+    <div class="taskbar-left">
       <button class="help-button" onclick="toggleHelp()">Help</button>
       <div class="help-content" id="helpContent">
         Helpline Number: <b>00000000</b><br>
         Gmail: <b>gdjhdg@gmail.com</b><br><br>
-        This page welcomes the user after login.<br>
-        Use the Logout option in the profile menu to return.
+        This is the booking page. Use the Home icon to return to the main page.<br>
+        Use the Logout option in the profile menu to return to login.
       </div>
-    </div> 
       <a href="home.html" class="home-icon-link" aria-label="Go to Home">
         <span class="home-icon">🏠</span>
-        <!-- Alternative using an SVG (example - you'd need the actual SVG code)
-        <svg class="home-icon" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        -->
       </a>
     </div>
-      
+
+    <!-- Right side of the taskbar: Profile/Logout dropdown -->
     <div class="profile-dropdown">
       <span class="profile-icon" onclick="toggleDropdown()">⚙️</span>
       <div class="dropdown-content" id="profileDropdown">
@@ -195,7 +200,6 @@
     </div>
   </div>
   <!-- End Taskbar -->
-
   <h1 class="booking-heading">Booking</h1>
 
   <!-- Optional: Add a link to go back to the main page -->
