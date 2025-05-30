@@ -65,7 +65,7 @@
     .half-page-background {
       width: 100%;
       height: 50vh;
-      background: url('camera_in_picture_along_with_stunning_background.jpeg') no-repeat center center;
+      background: url(booking_text_image_in_the_style.jpeg) no-repeat center center;
       background-size: cover;
     }
     /* --- End Image Background Section --- */
@@ -182,8 +182,12 @@
 </head>
 <body>
 
-  <div class="half-page-background"></div>
+<!-- 1. 50% Height Image Background Section - THIS MUST BE PRESENT -->
+  <div class="half-page-background">
+    <!-- This div is purely for the background. -->
+  </div>
 
+  <!-- 2. Taskbar - Will float on top of the .half-page-background -->
   <div class="taskbar">
     <div class="taskbar-left">
       <button class="help-button" onclick="toggleHelp()">Help</button>
@@ -204,7 +208,9 @@
       </div>
     </div>
   </div>
+  <!-- End Taskbar -->
 
+  <!-- 3. Transparent Information Box -->
   <div class="info-dialog-box">
     <div class="info-dialog-box-title">INFORMATION BOX</div>
 
@@ -219,14 +225,6 @@
       <div class="form-group">
         <label for="phoneNumber">PHONE NUMBER:</label>
         <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+91 XXXXX XXXXX" pattern="^\+91[1-9]\d{9}$" title="Please enter a valid Indian phone number starting with +91 followed by 10 digits." required>
-        <!-- 
-          pattern explanation:
-          ^        : Start of the string
-          \+91     : Matches literal "+91"
-          [1-9]    : Matches a single digit from 1 to 9 (first digit of mobile number cannot be 0)
-          \d{9}    : Matches exactly 9 digits
-          $        : End of the string
-        -->
       </div>
 
       <div class="form-group">
@@ -241,22 +239,25 @@
           <option value="malayalam">Malayalam</option>
           <option value="bengali">Bengali</option>
           <option value="gujarati">Gujarati</option>
-          <!-- Add more languages as needed -->
         </select>
         <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #555;">Hold Ctrl (or Cmd on Mac) to select multiple languages.</small>
       </div>
-
-      <!-- You can add a submit button here if this form needs to be submitted -->
-      <!-- <button type="submit" class="submit-button">Submit Information</button> -->
     </form>
-
   </div>
+  <!-- End Information Box -->
 
+  <!-- 4. Content below the dialog box -->
   <div class="content-below-dialog">
     <a href="home.html" class="back-link">Go Back to Home</a>
   </div>
+  <!-- End of content -->
 
   <script>
+    // ... (JavaScript remains the same) ...
+  </script>
+
+</body>
+  
     function toggleHelp() { /* ... */ }
     function toggleDropdown() { /* ... */ }
     function logout() { /* ... */ }
@@ -273,7 +274,3 @@
         }
       });
     }
-  </script>
-
-</body>
-</html>
