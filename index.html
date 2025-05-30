@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NEW ELLORA - Login</title>
+  <!-- Link to your CSS file -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="background"></div>
+  <div class="background">
+    <!-- You can add actual image or more complex background elements here if needed -->
+  </div>
 
   <div class="login-container">
     <h2>WELCOME !</h2>
@@ -19,21 +22,27 @@
 
     <!-- Login Form -->
     <form id="loginForm" class="form">
-      <input type="email" id="loginEmail" placeholder="Enter Gmail" required />
+      <label for="loginEmail" class="sr-only">Email</label> <!-- Added for accessibility -->
+      <input type="email" id="loginEmail" placeholder="Enter Email" required />
+
+      <label for="loginPassword" class="sr-only">Password</label> <!-- Added for accessibility -->
       <input type="password" id="loginPassword" placeholder="Enter Password" required />
       <button type="submit">Login</button>
     </form>
 
     <!-- Registration Form -->
     <form id="registerForm" class="form hidden">
-      <input type="email" id="registerEmail" placeholder="Enter Gmail" required />
+      <label for="registerEmail" class="sr-only">Email</label> <!-- Added for accessibility -->
+      <input type="email" id="registerEmail" placeholder="Enter Email" required />
+
+      <label for="registerPassword" class="sr-only">Create Password</label> <!-- Added for accessibility -->
       <input type="password" id="registerPassword" placeholder="Create Password" required />
+
+      <label for="confirmPassword" class="sr-only">Confirm Password</label> <!-- Added for accessibility -->
       <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
-
