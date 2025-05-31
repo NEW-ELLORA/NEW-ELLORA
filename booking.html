@@ -229,11 +229,43 @@
     Request has been sent! <br> Please wait for the confirmation of your order.
   </div>
 
+      <!-- THIS ENTIRE SCRIPT BLOCK GOES INTO YOUR booking.html FILE -->
+  <!-- Preferably just before the closing </body> tag -->
   <script>
-    function toggleHelp() { const helpBox = document.getElementById("helpContent"); if (helpBox) { helpBox.style.display = helpBox.style.display === "block" ? "none" : "block"; }}
-    function toggleDropdown() { const dropdown = document.getElementById("profileDropdown"); if (dropdown) { dropdown.style.display = dropdown.style.display === "block" ? "none" : "block"; }}
-    function logout() { window.location.href = "index.html"; }
+    // --- LOGIN CHECK - This should run as early as possible ---
+    // If not logged in, redirect to the login page (index.html)
+    if (localStorage.getItem('isUserLoggedIn') !== 'true') {
+        alert("Access Denied. Please log in to make a booking.");
+        window.location.href = 'index.html';
+        // To prevent further script execution if redirection is not immediate (though it usually is):
+        // throw new Error("User not authenticated. Redirecting...");
+    }
 
+    // --- GLOBAL FUNCTIONS for Taskbar and Page ---
+    function toggleHelp() {
+      const helpBox = document.getElementById("helpContent");
+      if (helpBox) {
+        helpBox.style.display = helpBox.style.display === "block" ? "none" : "block";
+      }
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById("profileDropdown");
+      if (dropdown) {
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      }
+    }
+
+    function logout() {
+      // ***** MODIFIED: Clear login status from localStorage *****
+      localStorage.removeItem('loggedInUserEmail');
+      localStorage.removeItem('isUserLoggedIn');
+      // ********************************************************
+      alert("You have been logged out.");
+      window.location.href = "index.html";
+    }
+
+    // Close dropdowns if clicked outside
     document.addEventListener("click", function(event) {
       const helpContent = document.getElementById("helpContent");
       const helpButton = document.querySelector(".help-button");
@@ -250,6 +282,7 @@
       }
     });
 
+    // --- Location Image Logic ---
     const locationImages = {
       'kasargod': 'https://via.placeholder.com/600x250.png?text=Scenic+Kasargod',
       'kannur': 'https://via.placeholder.com/600x250.png?text=Beautiful+Kannur',
@@ -259,7 +292,10 @@
     };
 
     function updateLocationImage(locationValue, imgElement, selectElement, isInitialLoad = false) {
-      if (!imgElement || !selectElement) return;
+      if (!imgElement || !selectElement) {
+        // console.warn("updateLocationImage: imgElement or selectElement not found.");
+        return;
+      }
       let newImageUrl = locationImages[locationValue] || locationImages['other'] || '';
 
       let locationDisplayName = locationValue;
@@ -281,13 +317,13 @@
 
       if (isInitialLoad) {
         imgElement.src = newImageUrl;
-        if (imgElement.complete && newImageUrl && imgElement.naturalWidth !== 0) { // check naturalWidth for empty/broken cached images
+        if (imgElement.complete && newImageUrl && imgElement.naturalWidth !== 0) {
             performFadeIn();
         } else if (newImageUrl) {
             imgElement.addEventListener('load', performFadeIn);
             imgElement.addEventListener('error', performFadeIn);
         } else {
-            performFadeIn();
+            performFadeIn(); // Handles hiding if no image initially
         }
       } else {
         imgElement.style.opacity = 0;
@@ -299,141 +335,157 @@
             imgElement.addEventListener('load', performFadeIn);
             imgElement.addEventListener('error', performFadeIn);
           } else {
-            performFadeIn();
+            performFadeIn(); // Handles hiding if no image
           }
-        }, 300);
+        }, 300); // CSS transition duration
       }
     }
 
+    // --- DOMContentLoaded for Booking Page Specific Setup ---
     document.addEventListener('DOMContentLoaded', function() {
-      const occasionLocationSelect = document.getElementById('occasionLocation');
-      const locationImagePreview = document.getElementById('locationImagePreview');
-      const bookingForm = document.getElementById('bookingForm');
-      const bookNowButton = document.getElementById('bookNowButton');
-      const confirmationPopup = document.getElementById('confirmationPopup');
+        // If the script execution reached here, the user is "logged in" based on the initial check.
 
-      const serverEndpointURL = "https://new-ellora.netlify.app/.netlify/functions/handle-booking";
+        // Get references to elements needed on this page
+        const occasionLocationSelect = document.getElementById('occasionLocation');
+        const locationImagePreview = document.getElementById('locationImagePreview');
+        const bookingForm = document.getElementById('bookingForm');
+        const bookNowButton = document.getElementById('bookNowButton');
+        const confirmationPopup = document.getElementById('confirmationPopup');
+        const userEmailField = document.getElementById('userEmail'); // For pre-filling
+        const occasionDateField = document.getElementById('occasionDate'); // For min date
 
-      const userEmailField = document.getElementById('userEmail');
-      if (userEmailField) {
-          const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
-          if (loggedInUserEmail) {
-              userEmailField.value = loggedInUserEmail;
-              console.log("Pre-filled email from localStorage:", loggedInUserEmail);
-          } else {
-              console.log("No loggedInUserEmail found in localStorage.");
-          }
-      } else {
-          console.warn("HTML Element with ID 'userEmail' not found for pre-filling.");
-      }
+        // Netlify Function URL
+        const serverEndpointURL = "https://new-ellora.netlify.app/.netlify/functions/handle-booking";
 
-
-      if (occasionLocationSelect && locationImagePreview) {
-        updateLocationImage(occasionLocationSelect.value, locationImagePreview, occasionLocationSelect, true);
-        occasionLocationSelect.addEventListener('change', function() {
-          updateLocationImage(this.value, locationImagePreview, this);
-          if (this.value === 'other') {
-            alert("Sorry, we are not available in this location yet.");
-          }
-        });
-      }
-
-      // ***** START: NEW/MODIFIED JAVASCRIPT for Occasion Date min attribute *****
-      const occasionDateField = document.getElementById('occasionDate');
-      if (occasionDateField) {
-        // Set the minimum date to today
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
-        const day = today.getDate().toString().padStart(2, '0');
-        occasionDateField.min = `${year}-${month}-${day}`;
-      }
-      // ***** END: NEW/MODIFIED JAVASCRIPT for Occasion Date min attribute *****
-
-
-      if (bookNowButton && bookingForm) {
-        bookNowButton.addEventListener('click', async function() {
-          if (!bookingForm.checkValidity()) {
-            bookingForm.reportValidity();
-            const firstInvalidField = bookingForm.querySelector(':invalid');
-            if (firstInvalidField) {
-              firstInvalidField.focus();
+        // ***** START: PRE-FILL USER'S EMAIL FROM LOCALSTORAGE *****
+        if (userEmailField) {
+            const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
+            if (loggedInUserEmail) {
+                userEmailField.value = loggedInUserEmail;
+                console.log("Booking page: Pre-filled email from localStorage:", loggedInUserEmail);
+                // Optional: If you want the email to be non-editable after pre-fill
+                // userEmailField.readOnly = true;
+            } else {
+                console.log("Booking page: No 'loggedInUserEmail' found in localStorage to pre-fill.");
+                // User might have cleared localStorage or navigated here without "logging in"
+                // (though the initial check should have redirected them).
             }
-            return;
-          }
+        } else {
+            console.warn("Booking page: HTML Element with ID 'userEmail' not found for pre-filling.");
+        }
+        // ***** END: PRE-FILL USER'S EMAIL *****
 
-          bookNowButton.disabled = true;
-          bookNowButton.textContent = "SENDING REQUEST...";
 
-          const preferredLanguagesSelect = document.getElementById('preferredLanguages');
-          const occasionLocationSelectInternal = document.getElementById('occasionLocation');
+        // Setup for Location Image Preview
+        if (occasionLocationSelect && locationImagePreview) {
+          updateLocationImage(occasionLocationSelect.value, locationImagePreview, occasionLocationSelect, true);
+          occasionLocationSelect.addEventListener('change', function() {
+            updateLocationImage(this.value, locationImagePreview, this);
+            if (this.value === 'other') {
+              alert("Sorry, we are not available in this location yet.");
+            }
+          });
+        }
 
-          const bookingData = {
-              userName: document.getElementById('userName') ? document.getElementById('userName').value : '',
-              phoneNumber: document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : '',
-              userEmail: document.getElementById('userEmail') ? document.getElementById('userEmail').value : '',
-              preferredLanguages: preferredLanguagesSelect ? Array.from(preferredLanguagesSelect.selectedOptions).map(option => option.value) : [],
-              occasionLocation: occasionLocationSelectInternal ? occasionLocationSelectInternal.value : '',
-              occasionName: document.getElementById('occasionName') ? document.getElementById('occasionName').value : '',
-              occasionDate: document.getElementById('occasionDate') ? document.getElementById('occasionDate').value : '', // ***** ADDED OCCASION DATE *****
-              occasionAddress: document.getElementById('occasionAddress') ? document.getElementById('occasionAddress').value : '',
-              numberOfMembers: document.getElementById('numberOfMembers') ? document.getElementById('numberOfMembers').value : '',
-              timestamp: new Date().toISOString()
-          };
+        // Setup for Occasion Date minimum (prevent past dates)
+        if (occasionDateField) {
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+          const day = today.getDate().toString().padStart(2, '0');
+          occasionDateField.min = `${year}-${month}-${day}`;
+        }
 
-          try {
-              const response = await fetch(serverEndpointURL, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(bookingData)
-              });
-
-              if (response.ok) {
-                  const result = await response.json();
-                  console.log('Server response:', result);
-
-                  if (confirmationPopup) {
-                      confirmationPopup.innerHTML = result.message || "Request has been sent! <br> Please wait for the confirmation.";
-                      confirmationPopup.style.display = 'block';
-                  }
-
-                  setTimeout(() => {
-                      if (confirmationPopup) {
-                          confirmationPopup.style.display = 'none';
-                      }
-                      window.location.href = 'home.html';
-                  }, 5000);
-              } else {
-                  const errorText = await response.text();
-                  console.error('Server error:', response.status, errorText);
-                  alert(`Error submitting booking. Server responded with: ${response.status}. ${errorText || 'Please try again.'}`);
-
-                  if (confirmationPopup) {
-                       confirmationPopup.innerHTML = `Submission Failed (Server Error: ${response.status}). Please try again.`;
-                       confirmationPopup.style.display = 'block';
-                       setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
-                  }
-                  bookNowButton.disabled = false;
-                  bookNowButton.textContent = "BOOK";
+        // Event listener for the "BOOK" button
+        if (bookNowButton && bookingForm) {
+          bookNowButton.addEventListener('click', async function() {
+            // 1. Validate the form
+            if (!bookingForm.checkValidity()) {
+              bookingForm.reportValidity();
+              const firstInvalidField = bookingForm.querySelector(':invalid');
+              if (firstInvalidField) {
+                firstInvalidField.focus();
               }
-          } catch (error) {
-              console.error('Network error or other fetch issue:', error);
-              alert("Error: Could not connect to the server. Please check your internet connection and try again.");
+              return;
+            }
 
-              if (confirmationPopup) {
-                 confirmationPopup.innerHTML = "Network Error. Please try again.";
-                 confirmationPopup.style.display = 'block';
-                 setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
-              }
-              bookNowButton.disabled = false;
-              bookNowButton.textContent = "BOOK";
-          }
-        });
-      }
-    });
+            bookNowButton.disabled = true;
+            bookNowButton.textContent = "SENDING REQUEST...";
+
+            // 2. Collect data from form fields
+            const preferredLanguagesSelect = document.getElementById('preferredLanguages');
+            // Use a different variable name for occasionLocationSelect inside this narrower scope if needed,
+            // but the one from DOMContentLoaded is fine.
+            // const occasionLocationSelectInternal = document.getElementById('occasionLocation');
+
+            const bookingData = {
+                userName: document.getElementById('userName') ? document.getElementById('userName').value : '',
+                phoneNumber: document.getElementById('phoneNumber') ? document.getElementById('phoneNumber').value : '',
+                userEmail: userEmailField ? userEmailField.value : '', // Get from the potentially pre-filled field
+                preferredLanguages: preferredLanguagesSelect ? Array.from(preferredLanguagesSelect.selectedOptions).map(option => option.value) : [],
+                occasionLocation: occasionLocationSelect ? occasionLocationSelect.value : '',
+                occasionName: document.getElementById('occasionName') ? document.getElementById('occasionName').value : '',
+                occasionDate: occasionDateField ? occasionDateField.value : '',
+                occasionAddress: document.getElementById('occasionAddress') ? document.getElementById('occasionAddress').value : '',
+                numberOfMembers: document.getElementById('numberOfMembers') ? document.getElementById('numberOfMembers').value : '',
+                timestamp: new Date().toISOString()
+            };
+            console.log("Sending booking data:", bookingData); // For debugging
+
+            // 3. Send data to Netlify Function
+            try {
+                const response = await fetch(serverEndpointURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData)
+                });
+
+                // 4. Handle server's response
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Server response:', result);
+
+                    if (confirmationPopup) {
+                        confirmationPopup.innerHTML = result.message || "Request has been sent! <br> Please wait for confirmation.";
+                        confirmationPopup.style.display = 'block';
+                    }
+
+                    setTimeout(() => {
+                        if (confirmationPopup) confirmationPopup.style.display = 'none';
+                        window.location.href = 'home.html';
+                    }, 5000);
+                } else { // Server responded with an error status
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    alert(`Error submitting booking. Server: ${response.status}. ${errorText || 'Please try again.'}`);
+
+                    if (confirmationPopup) {
+                         confirmationPopup.innerHTML = `Submission Failed (Server Error: ${response.status}). Please try again.`;
+                         confirmationPopup.style.display = 'block';
+                         setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
+                    }
+                    bookNowButton.disabled = false;
+                    bookNowButton.textContent = "BOOK";
+                }
+            } catch (error) { // Network error or other issue with fetch itself
+                console.error('Network error or other fetch issue:', error);
+                alert("Error: Could not connect to the server. Please check your internet connection and try again.");
+
+                if (confirmationPopup) {
+                   confirmationPopup.innerHTML = "Network Error. Please try again.";
+                   confirmationPopup.style.display = 'block';
+                   setTimeout(() => { confirmationPopup.style.display = 'none'; }, 7000);
+                }
+                bookNowButton.disabled = false;
+                bookNowButton.textContent = "BOOK";
+            }
+          }); // End of bookNowButton click listener
+        } else {
+            if (!bookNowButton) console.warn("Book Now Button not found.");
+            if (!bookingForm) console.warn("Booking Form not found.");
+        }
+
+    }); // End of DOMContentLoaded
   </script>
-
 </body>
 </html>
