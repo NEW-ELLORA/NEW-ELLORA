@@ -1,7 +1,8 @@
 {
-  "name": "new-ellora-booking",
+  "name": "new-ellora-project",
   "version": "1.0.0",
+  "description": "Booking form for New Ellora",
   "dependencies": {
-    "nodemailer": "^6.9.7" // Use a recent version
+    "nodemailer": "^6.9.8"
   }
 }
